@@ -9,7 +9,7 @@ class PaymentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String uniqueId = UniqueKey().toString();
+    String heroTag = UniqueKey().toString();
     String cardSpent =
         '${cardMessages[0].currencyName} ${cardMessages.map((e) => e.currencyValue).reduce((value, element) => value + element).toStringAsFixed(2)}';
     String cardBalance =
@@ -20,7 +20,7 @@ class PaymentCard extends StatelessWidget {
     String totalTransactions =
         ' transaction${totalNumberOfTransactions > 1 ? 's' : ''}';
     return Hero(
-      tag: uniqueId,
+      tag: heroTag,
       child: Card(
         elevation: 12,
         clipBehavior: Clip.hardEdge,
@@ -30,7 +30,7 @@ class PaymentCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => TransactionsList(
-                  heroTag: uniqueId,
+                  heroTag: heroTag,
                   cardMessages: cardMessages,
                   cardSpent: cardSpent,
                   cardBalance: cardBalance,
