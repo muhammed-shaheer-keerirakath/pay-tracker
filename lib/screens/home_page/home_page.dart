@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/screens/error_boundary/error_boundary.dart';
+import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
 import 'package:pay_tracker/screens/message_list/message_list.dart';
 import 'package:pay_tracker/screens/no_sms_access/no_sms_access.dart';
 import 'package:pay_tracker/screens/progress/progress_loader.dart';
@@ -77,6 +78,8 @@ class _HomePageState extends State<HomePage> {
           return const NoSmsAccess();
         } else if (exceptionOccurred) {
           return ErrorBoundary(exception: exception);
+        } else if (displayedGroupedSms.isEmpty) {
+          return const EmptyMessageList();
         }
         return MessageList(messages: displayedGroupedSms);
       },
