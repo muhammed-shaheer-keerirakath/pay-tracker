@@ -8,6 +8,7 @@ class TransactionsList extends StatelessWidget {
   const TransactionsList({
     super.key,
     required this.heroTag,
+    required this.cardImageUri,
     required this.cardMessages,
     required this.cardSpent,
     required this.cardBalance,
@@ -16,6 +17,7 @@ class TransactionsList extends StatelessWidget {
     required this.totalTransactions,
   });
   final String heroTag;
+  final String cardImageUri;
   final List<DisplayedSms> cardMessages;
   final String cardSpent;
   final String cardBalance;
@@ -25,6 +27,9 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String themeModeIdentifier =
+        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
+
     return Scaffold(
       appBar: AppBar(
         title: const Text(appName),
@@ -36,19 +41,30 @@ class TransactionsList extends StatelessWidget {
             child: Hero(
               tag: heroTag,
               child: Card(
+                clipBehavior: Clip.hardEdge,
                 shape: RoundedRectangleBorder(
                   side: BorderSide(
                     color: Theme.of(context).colorScheme.outline,
                   ),
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
-                child: PaymentCardContent(
-                  openedView: true,
-                  cardSpent: cardSpent,
-                  cardBalance: cardBalance,
-                  cardNumber: cardNumber,
-                  totalNumberOfTransactions: totalNumberOfTransactions,
-                  totalTransactions: totalTransactions,
+                child: Container(
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage(
+                        '$cardImageUri$themeModeIdentifier$cardCoverFileType',
+                      ),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  child: PaymentCardContent(
+                    openedView: true,
+                    cardSpent: cardSpent,
+                    cardBalance: cardBalance,
+                    cardNumber: cardNumber,
+                    totalNumberOfTransactions: totalNumberOfTransactions,
+                    totalTransactions: totalTransactions,
+                  ),
                 ),
               ),
             ),

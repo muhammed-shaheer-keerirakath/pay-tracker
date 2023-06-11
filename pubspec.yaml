@@ -51,6 +51,10 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - lib/assets/json/mock_messages.json
+    - lib/assets/images/credit_card_light.jpg
+    - lib/assets/images/debit_card_light.jpg
+    - lib/assets/images/credit_card_dark.jpg
+    - lib/assets/images/debit_card_dark.jpg
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
   # For details regarding adding assets from package dependencies, see

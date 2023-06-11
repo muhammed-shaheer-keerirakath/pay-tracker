@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 
 class DateGroupedSms {
@@ -9,9 +10,9 @@ class DateGroupedSms {
   DateGroupedSms(List<DisplayedSms> messages) {
     date = DateFormat('EEE, dd MMM y').format(messages[0].dateTime);
     for (var message in messages) {
-      if (message.cardType == 'Credit Card') {
+      if (message.cardType == CardType.creditCard) {
         creditCards.add(message);
-      } else if (message.cardType == 'Debit Card') {
+      } else if (message.cardType == CardType.debitCard) {
         debitCards.add(message);
       }
     }
