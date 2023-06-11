@@ -11,7 +11,7 @@ class MessageList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: messages.length,
-      itemBuilder: (BuildContext context, int index) {
+      itemBuilder: (BuildContext buildContext, int index) {
         return Padding(
           padding:
               const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
