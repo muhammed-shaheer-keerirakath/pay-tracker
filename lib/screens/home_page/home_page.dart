@@ -9,7 +9,7 @@ import 'package:pay_tracker/screens/progress/progress_loader.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
-import 'package:pay_tracker/utilities/message_reader.dart';
+import 'package:pay_tracker/utilities/readers/message_reader.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
