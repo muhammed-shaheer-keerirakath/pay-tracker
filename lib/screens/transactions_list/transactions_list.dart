@@ -3,6 +3,7 @@ import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
+import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
@@ -27,8 +28,7 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String themeModeIdentifier =
-        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
+    String themeModeIdentifier = getThemeModeIdentifier(context);
 
     return Scaffold(
       appBar: AppBar(
