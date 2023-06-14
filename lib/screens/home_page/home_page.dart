@@ -71,7 +71,7 @@ class _HomePageState extends State<HomePage> {
   Widget loadHome() {
     return FutureBuilder(
       future: fetchMessagesFromInbox(),
-      builder: (context, snapshot) {
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           return const ProgressLoader();
         } else if (smsPermissionFailed) {
