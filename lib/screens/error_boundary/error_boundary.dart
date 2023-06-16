@@ -15,9 +15,10 @@ class ErrorBoundary extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.error_outline,
               size: 48,
+              color: Theme.of(context).colorScheme.primary,
             ),
             const SizedBox(
               height: 18,
