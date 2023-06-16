@@ -30,6 +30,10 @@ class MessageList extends StatelessWidget {
                   Row(children: [
                     Text(
                       messages[index].date,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ]),
                   messages[index].creditCards.isNotEmpty
