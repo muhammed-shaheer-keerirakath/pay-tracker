@@ -13,19 +13,20 @@ class EmptyMessageList extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: const [
+          children: [
             Icon(
               Icons.inbox_outlined,
               size: 48,
+              color: Theme.of(context).colorScheme.primary,
             ),
-            SizedBox(
+            const SizedBox(
               height: 18,
             ),
-            Text(
+            const Text(
               textAlign: TextAlign.center,
               noSmsFoundText,
             ),
-            EmptyMessageListSampleSms(),
+            const EmptyMessageListSampleSms(),
           ],
         ),
       ),
