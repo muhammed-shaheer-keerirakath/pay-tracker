@@ -49,6 +49,7 @@ class TransactionsList extends StatelessWidget {
                   borderRadius: const BorderRadius.all(Radius.circular(12)),
                 ),
                 child: Container(
+                  height: 180,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: AssetImage(

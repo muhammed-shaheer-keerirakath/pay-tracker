@@ -53,6 +53,7 @@ class PaymentCard extends StatelessWidget {
             );
           },
           child: Container(
+            height: 180,
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: AssetImage(
