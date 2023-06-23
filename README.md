@@ -20,3 +20,5 @@ Android  | [.apk Installer file](https://github.com/shaheer-deriv/pay-tracker/bl
 > If you are a developer, you may also fork the source code and build the application by yourself and install it in your device.
 
 > For testing, set **useMockData** variable to **true** in the [app_constants.dart file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/lib/constants/app_constants.dart) to use the application with dummy SMS data.
+
+> I am using this application for reading SMS from Emirates NBD bank in the United Arab Emirates.
