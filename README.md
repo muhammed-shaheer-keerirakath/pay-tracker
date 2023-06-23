@@ -15,4 +15,8 @@ Platform  | Download Link
 Android  | [.apk Installer file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/Download/android_app_pay_tracker.apk)
 
 # Other Details
-> For trying out this application, you may download the Android application from the above link, or if you are a developer, you may fork the source code and set **useMockData** variable in the [app_constants.dart file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/lib/constants/app_constants.dart) to **true** to use the application with dummy SMS data.
+> If you want to use this application in your Android device, you may download the Android application from the above link. If you have trust issues, do not download/install the application. Everything you do is at your own risk.
+
+> If you are a developer, you may also fork the source code and build the application by yourself and install it in your device.
+
+> For testing, set **useMockData** variable to **true** in the [app_constants.dart file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/lib/constants/app_constants.dart) to use the application with dummy SMS data.
