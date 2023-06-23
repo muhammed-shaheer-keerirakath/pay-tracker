@@ -13,6 +13,7 @@ class TransactionsList extends StatelessWidget {
     required this.cardMessages,
     required this.cardSpent,
     required this.cardBalance,
+    required this.cardType,
     required this.cardNumber,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
@@ -22,6 +23,7 @@ class TransactionsList extends StatelessWidget {
   final List<DisplayedSms> cardMessages;
   final String cardSpent;
   final String cardBalance;
+  final String cardType;
   final String cardNumber;
   final int totalNumberOfTransactions;
   final String totalTransactions;
@@ -62,6 +64,7 @@ class TransactionsList extends StatelessWidget {
                     openedView: true,
                     cardSpent: cardSpent,
                     cardBalance: cardBalance,
+                    cardType: cardType,
                     cardNumber: cardNumber,
                     totalNumberOfTransactions: totalNumberOfTransactions,
                     totalTransactions: totalTransactions,

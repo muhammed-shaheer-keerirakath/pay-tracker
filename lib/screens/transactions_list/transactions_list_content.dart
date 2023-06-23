@@ -22,9 +22,10 @@ class TransactionsListContent extends StatelessWidget {
                 children: [
                   Text(
                     cardMessage.purchasedAmount,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.primary,
                     ),
                   ),
                   Text(
@@ -32,14 +33,35 @@ class TransactionsListContent extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 6),
+              const SizedBox(height: 2),
               Text(
                 cardMessage.purchasedAt,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
               ),
               const SizedBox(height: 6),
-              Text(
-                '${cardMessage.balanceType}: ${cardMessage.availableAmount}',
-                textAlign: TextAlign.end,
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  RichText(
+                    text: TextSpan(
+                      style: DefaultTextStyle.of(context).style,
+                      children: [
+                        TextSpan(
+                          text: '${cardMessage.balanceType}: ',
+                        ),
+                        TextSpan(
+                          text: cardMessage.availableAmount,
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ],
           ),

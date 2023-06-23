@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/screens/message_list/payment_card.dart';
-import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 
 class MessageList extends StatelessWidget {
@@ -30,6 +29,10 @@ class MessageList extends StatelessWidget {
                   Row(children: [
                     Text(
                       messages[index].date,
+                      style: TextStyle(
+                        fontSize: 16,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
                     ),
                   ]),
                   messages[index].creditCards.isNotEmpty
@@ -39,7 +42,6 @@ class MessageList extends StatelessWidget {
                               height: 12,
                             ),
                             PaymentCard(
-                                cardType: CardType.creditCard,
                                 cardMessages: messages[index].creditCards),
                           ],
                         )
@@ -51,7 +53,6 @@ class MessageList extends StatelessWidget {
                               height: 12,
                             ),
                             PaymentCard(
-                              cardType: CardType.debitCard,
                               cardMessages: messages[index].debitCards,
                             ),
                           ],
