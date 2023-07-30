@@ -86,7 +86,9 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
         if (dailyLimit != 0)
           Row(
             children: [
-              Expanded(child: Text('Daily Limit: $dailyLimit')),
+              Expanded(
+                  child: Text(
+                      'Daily Limit: ${(widget.totalAmountSpent / dailyLimit * 100).toStringAsFixed(0)}%')),
               Expanded(
                 flex: 2,
                 child: LinearProgressIndicator(
