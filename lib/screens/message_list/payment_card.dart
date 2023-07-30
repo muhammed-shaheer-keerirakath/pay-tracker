@@ -14,8 +14,9 @@ class PaymentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String heroTag = UniqueKey().toString();
     String themeModeIdentifier = getThemeModeIdentifier(context);
+    String currencyName = cardMessages[0].currencyName;
     String cardSpent =
-        '${cardMessages[0].currencyName} ${cardMessages.map((e) => e.currencyValue).reduce((value, element) => value + element).toStringAsFixed(2)}';
+        '$currencyName ${cardMessages.map((e) => e.currencyValue).reduce((value, element) => value + element).toStringAsFixed(2)}';
     String cardBalance =
         'Current ${cardMessages[0].balanceType} is ${cardMessages[0].availableAmount}';
     String cardType = cardMessages[0].cardType;
@@ -44,6 +45,7 @@ class PaymentCard extends StatelessWidget {
                   cardSpent: cardSpent,
                   cardBalance: cardBalance,
                   cardType: cardType,
+                  currencyName: currencyName,
                   cardNumber: cardNumber,
                   totalNumberOfTransactions: totalNumberOfTransactions,
                   totalTransactions: totalTransactions,

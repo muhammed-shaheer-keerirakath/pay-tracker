@@ -4,8 +4,10 @@ import 'package:pay_tracker/constants/app_constants.dart';
 class CardSettings extends StatefulWidget {
   const CardSettings({
     super.key,
+    required this.currencyName,
     required this.cardNumber,
   });
+  final String currencyName;
   final String cardNumber;
 
   @override
