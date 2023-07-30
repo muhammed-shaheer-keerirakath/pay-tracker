@@ -17,6 +17,7 @@ class TransactionsList extends StatelessWidget {
     required this.cardType,
     required this.cardNumber,
     required this.currencyName,
+    required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
   });
@@ -28,6 +29,7 @@ class TransactionsList extends StatelessWidget {
   final String cardType;
   final String cardNumber;
   final String currencyName;
+  final double totalAmountSpent;
   final int totalNumberOfTransactions;
   final String totalTransactions;
 
@@ -48,6 +50,7 @@ class TransactionsList extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => CardSettings(
+                    cardType: cardType,
                     currencyName: currencyName,
                     cardNumber: cardNumber,
                   ),
@@ -87,6 +90,7 @@ class TransactionsList extends StatelessWidget {
                     cardBalance: cardBalance,
                     cardType: cardType,
                     cardNumber: cardNumber,
+                    totalAmountSpent: totalAmountSpent,
                     totalNumberOfTransactions: totalNumberOfTransactions,
                     totalTransactions: totalTransactions,
                   ),

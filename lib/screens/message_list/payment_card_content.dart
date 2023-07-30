@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-class PaymentCardContent extends StatelessWidget {
+class PaymentCardContent extends StatefulWidget {
   const PaymentCardContent({
     super.key,
     required this.openedView,
@@ -8,6 +10,7 @@ class PaymentCardContent extends StatelessWidget {
     required this.cardBalance,
     required this.cardType,
     required this.cardNumber,
+    required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
   });
@@ -16,8 +19,30 @@ class PaymentCardContent extends StatelessWidget {
   final String cardBalance;
   final String cardType;
   final String cardNumber;
+  final double totalAmountSpent;
   final int totalNumberOfTransactions;
   final String totalTransactions;
+
+  @override
+  State<PaymentCardContent> createState() => _PaymentCardContentState();
+}
+
+class _PaymentCardContentState extends State<PaymentCardContent> {
+  int dailyLimit = 0;
+  Future<void> _loadCardLimit() async {
+    final preferences = await SharedPreferences.getInstance();
+    setState(() {
+      dailyLimit = (preferences
+              .getInt('$cardLimitKey${widget.cardType}${widget.cardNumber}') ??
+          0);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCardLimit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +57,7 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardSpent,
+                    text: widget.cardSpent,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -50,13 +75,27 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardBalance,
+                    text: widget.cardBalance,
                   ),
                 ],
               ),
             ),
           ],
         ),
+        Expanded(child: Container()),
+        if (dailyLimit != 0)
+          Row(
+            children: [
+              Expanded(child: Text('Daily Limit: $dailyLimit')),
+              Expanded(
+                flex: 2,
+                child: LinearProgressIndicator(
+                  value: widget.totalAmountSpent / dailyLimit,
+                  semanticsLabel: 'Daily limit indicator',
+                ),
+              ),
+            ],
+          ),
         Expanded(child: Container()),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -66,13 +105,13 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardType,
+                    text: widget.cardType,
                   ),
                   const TextSpan(
                     text: ' XXXX ',
                   ),
                   TextSpan(
-                    text: cardNumber,
+                    text: widget.cardNumber,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -86,22 +125,22 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: totalNumberOfTransactions.toString(),
+                    text: widget.totalNumberOfTransactions.toString(),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextSpan(
-                    text: totalTransactions,
+                    text: widget.totalTransactions,
                   ),
-                  if (openedView)
+                  if (widget.openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
                         Icons.keyboard_double_arrow_down_outlined,
                       ),
                     ),
-                  if (!openedView)
+                  if (!widget.openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(

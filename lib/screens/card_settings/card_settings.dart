@@ -6,9 +6,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class CardSettings extends StatefulWidget {
   const CardSettings({
     super.key,
+    required this.cardType,
     required this.currencyName,
     required this.cardNumber,
   });
+  final String cardType;
   final String currencyName;
   final String cardNumber;
 
@@ -23,7 +25,7 @@ class _CardSettingsState extends State<CardSettings> {
     final preferences = await SharedPreferences.getInstance();
     setState(() {
       preferences.setInt(
-          '$cardLimitKey${widget.cardNumber}',
+          '$cardLimitKey${widget.cardType}${widget.cardNumber}',
           cardLimitController.text.isNotEmpty
               ? int.parse(cardLimitController.text)
               : 0);
@@ -33,9 +35,10 @@ class _CardSettingsState extends State<CardSettings> {
   Future<void> _loadCardLimit() async {
     final preferences = await SharedPreferences.getInstance();
     setState(() {
-      cardLimitController.text =
-          (preferences.getInt('$cardLimitKey${widget.cardNumber}') ?? 40)
-              .toString();
+      cardLimitController.text = (preferences.getInt(
+                  '$cardLimitKey${widget.cardType}${widget.cardNumber}') ??
+              0)
+          .toString();
     });
   }
 
