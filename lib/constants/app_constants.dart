@@ -3,7 +3,7 @@ const bool useDebugBorders = false;
 const bool useDebugBanner = false;
 
 const String appName = 'Pay Tracker';
-const String appTitleTransactionslist = 'Card Transactions';
+const String appTitleTransactionsList = 'Card Transactions';
 const String appTitleCardSettings = 'Card Settings';
 
 const String smsAddress = 'EmiratesNBD';
@@ -26,3 +26,5 @@ const String errorBoundaryText =
 const String creditCardCoverImageUri = 'lib/assets/images/credit_card';
 const String debitCardCoverImageUri = 'lib/assets/images/debit_card';
 const String cardCoverFileType = '.jpg';
+
+const String cardLimitKey = 'cardLimitFor';

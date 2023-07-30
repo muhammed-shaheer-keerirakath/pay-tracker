@@ -18,7 +18,6 @@ class CardSettings extends StatefulWidget {
 
 class _CardSettingsState extends State<CardSettings> {
   final cardLimitController = TextEditingController();
-  String cardLimitKey = 'cardLimitFor';
 
   Future<void> _saveCardLimit() async {
     final preferences = await SharedPreferences.getInstance();

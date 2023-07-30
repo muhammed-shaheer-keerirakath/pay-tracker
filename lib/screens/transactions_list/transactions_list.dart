@@ -37,7 +37,7 @@ class TransactionsList extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appTitleTransactionslist),
+        title: const Text(appTitleTransactionsList),
         actions: [
           IconButton(
             icon: const Icon(
