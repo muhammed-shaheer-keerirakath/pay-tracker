@@ -3,6 +3,8 @@ const bool useDebugBorders = false;
 const bool useDebugBanner = false;
 
 const String appName = 'Pay Tracker';
+const String appTitleTransactionslist = 'Card Transactions';
+const String appTitleCardSettings = 'Card Settings';
 
 const String smsAddress = 'EmiratesNBD';
 const String smsLike = 'Purchase of % with % ending % at % Avl % is %';

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
@@ -34,7 +35,24 @@ class TransactionsList extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appName),
+        title: const Text(appTitleTransactionslist),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardSettings(
+                    cardNumber: cardNumber,
+                  ),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Column(
         children: [
