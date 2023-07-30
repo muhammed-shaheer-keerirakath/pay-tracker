@@ -38,8 +38,8 @@ class EmptyMessageListSampleSms extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Icon(Icons.account_circle_outlined),
                   SizedBox(
                     width: 8,
