@@ -12,8 +12,7 @@ class MessageList extends StatelessWidget {
       itemCount: messages.length,
       itemBuilder: (BuildContext buildContext, int index) {
         return Padding(
-          padding:
-              const EdgeInsets.only(left: 12, right: 12, top: 6, bottom: 6),
+          padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
           child: Card(
             elevation: 0,
             shape: RoundedRectangleBorder(
