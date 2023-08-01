@@ -65,6 +65,7 @@ class _HomePageState extends State<HomePage> {
     }
     if (smsPermissionFailed || exceptionOccurred) return;
     mapInboxSmsMessageForUi(inboxMessages);
+    await Future.delayed(const Duration(milliseconds: 100), () {});
   }
 
   Widget loadHome() {

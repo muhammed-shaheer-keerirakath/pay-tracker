@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,12 +31,14 @@ class PaymentCardContent extends StatefulWidget {
 
 class _PaymentCardContentState extends State<PaymentCardContent> {
   int dailyLimit = 0;
+  double percentageConsumed = 0;
   Future<void> _loadCardLimit() async {
     final preferences = await SharedPreferences.getInstance();
     setState(() {
       dailyLimit = (preferences
               .getInt('$cardLimitKey${widget.cardType}${widget.cardNumber}') ??
           0);
+      percentageConsumed = (widget.totalAmountSpent / dailyLimit * 100);
     });
   }
 
@@ -84,18 +88,78 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
         ),
         Expanded(child: Container()),
         if (dailyLimit != 0)
-          Row(
+          Column(
             children: [
-              Expanded(
-                  child: Text(
-                      'Daily Limit: ${(widget.totalAmountSpent / dailyLimit * 100).toStringAsFixed(0)}%')),
-              Expanded(
-                flex: 2,
-                child: LinearProgressIndicator(
-                  value: widget.totalAmountSpent / dailyLimit,
-                  semanticsLabel: 'Daily limit indicator',
-                ),
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: [
+                          const TextSpan(
+                            text: 'Consumed: ',
+                          ),
+                          TextSpan(
+                            text:
+                                '${(min(percentageConsumed, 100)).toStringAsFixed(0)}%',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(6)),
+                      child: LinearProgressIndicator(
+                        value: widget.totalAmountSpent / dailyLimit,
+                        semanticsLabel: 'Daily limit indicator',
+                      ),
+                    ),
+                  ),
+                ],
               ),
+              if (percentageConsumed > 100)
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            const TextSpan(
+                              text: 'Overspend: ',
+                            ),
+                            TextSpan(
+                              text:
+                                  '${(percentageConsumed - 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6)),
+                        child: LinearProgressIndicator(
+                          value: (percentageConsumed - 100) / 100,
+                          semanticsLabel: 'Daily limit indicator',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
             ],
           ),
         Expanded(child: Container()),
