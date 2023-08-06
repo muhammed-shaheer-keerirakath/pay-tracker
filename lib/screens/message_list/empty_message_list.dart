@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/screen_display_text_constants.dart';
 import 'package:pay_tracker/screens/message_list/empty_message_list_sample_sms.dart';
 
 class EmptyMessageList extends StatelessWidget {

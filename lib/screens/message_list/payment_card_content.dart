@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/identifier_constants.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class PaymentCardContent extends StatefulWidget {
@@ -134,7 +134,7 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                           style: DefaultTextStyle.of(context).style,
                           children: [
                             const TextSpan(
-                              text: 'Overspend: ',
+                              text: 'Overspent: ',
                             ),
                             TextSpan(
                               text:

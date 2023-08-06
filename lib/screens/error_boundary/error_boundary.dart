@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/screen_display_text_constants.dart';
 
 class ErrorBoundary extends StatelessWidget {
   const ErrorBoundary({super.key, required this.exception});
