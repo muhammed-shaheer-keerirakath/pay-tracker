@@ -69,22 +69,10 @@ class _HomePageState extends State<HomePage> {
     await Future.delayed(const Duration(milliseconds: 100), () {});
   }
 
-  Widget loadHome() {
-    return FutureBuilder(
-      future: fetchMessagesFromInbox(),
-      builder: (BuildContext context, AsyncSnapshot snapshot) {
-        if (snapshot.connectionState != ConnectionState.done) {
-          return const ProgressLoader();
-        } else if (smsPermissionFailed) {
-          return const NoSmsAccess();
-        } else if (exceptionOccurred) {
-          return ErrorBoundary(exception: exception);
-        } else if (displayedGroupedSms.isEmpty) {
-          return const EmptyMessageList();
-        }
-        return MessageList(messages: displayedGroupedSms);
-      },
-    );
+  void resetScreen() {
+    smsPermissionFailed = false;
+    exceptionOccurred = false;
+    displayedGroupedSms.clear();
   }
 
   @override
@@ -93,13 +81,23 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text(appName),
       ),
-      body: loadHome(),
+      body: FutureBuilder(
+        future: fetchMessagesFromInbox(),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState != ConnectionState.done) {
+            return const ProgressLoader();
+          } else if (smsPermissionFailed) {
+            return const NoSmsAccess();
+          } else if (exceptionOccurred) {
+            return ErrorBoundary(exception: exception);
+          } else if (displayedGroupedSms.isEmpty) {
+            return const EmptyMessageList();
+          }
+          return MessageList(messages: displayedGroupedSms);
+        },
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(() {
-          smsPermissionFailed = false;
-          exceptionOccurred = false;
-          displayedGroupedSms.clear();
-        }),
+        onPressed: () => setState(resetScreen),
         tooltip: 'Reload Messages',
         child: const Icon(Icons.refresh),
       ),
