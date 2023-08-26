@@ -3,14 +3,15 @@ import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/screens/error_boundary/error_boundary.dart';
-import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
 import 'package:pay_tracker/screens/message_list/message_list.dart';
 import 'package:pay_tracker/screens/no_sms_access/no_sms_access.dart';
 import 'package:pay_tracker/screens/progress/progress_loader.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -23,9 +24,11 @@ class _HomePageState extends State<HomePage> {
   Exception exception = Exception('');
   bool smsPermissionFailed = false;
   bool exceptionOccurred = false;
-  List<DateGroupedSms> displayedGroupedSms = [];
 
-  void mapInboxSmsMessageForUi(List<InboxSmsMessage> inboxMessages) {
+  Future<void> messageMapper(List<InboxSmsMessage> inboxMessages) async {
+    MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context, listen: false);
+    messageStoreModel.clearGroupedSms();
     List<DisplayedSms> displayedSms = [];
     for (var inboxMessage in inboxMessages) {
       RegExpMatch? regexMatch = regExp.firstMatch(inboxMessage.body);
@@ -44,17 +47,19 @@ class _HomePageState extends State<HomePage> {
       if (dateStamp == currentDateStamp) {
         dateStampMessages.add(sms);
       } else {
-        displayedGroupedSms.add(DateGroupedSms(dateStampMessages));
+        messageStoreModel.addGroupedSms(DateGroupedSms(dateStampMessages));
         dateStamp = currentDateStamp;
         dateStampMessages = [sms];
       }
     }
     if (dateStampMessages.isNotEmpty) {
-      displayedGroupedSms.add(DateGroupedSms(dateStampMessages));
+      messageStoreModel.addGroupedSms(DateGroupedSms(dateStampMessages));
     }
   }
 
   Future<void> fetchMessagesFromInbox() async {
+    smsPermissionFailed = false;
+    exceptionOccurred = false;
     List<InboxSmsMessage> inboxMessages = [];
     try {
       inboxMessages = await getInboxMessages();
@@ -65,14 +70,8 @@ class _HomePageState extends State<HomePage> {
       exception = e;
     }
     if (smsPermissionFailed || exceptionOccurred) return;
-    mapInboxSmsMessageForUi(inboxMessages);
+    await messageMapper(inboxMessages);
     await Future.delayed(const Duration(milliseconds: 100), () {});
-  }
-
-  void resetScreen() {
-    smsPermissionFailed = false;
-    exceptionOccurred = false;
-    displayedGroupedSms.clear();
   }
 
   @override
@@ -90,14 +89,12 @@ class _HomePageState extends State<HomePage> {
             return const NoSmsAccess();
           } else if (exceptionOccurred) {
             return ErrorBoundary(exception: exception);
-          } else if (displayedGroupedSms.isEmpty) {
-            return const EmptyMessageList();
           }
-          return MessageList(messages: displayedGroupedSms);
+          return const MessageList();
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => setState(resetScreen),
+        onPressed: () => setState(() {}),
         tooltip: 'Reload Messages',
         child: const Icon(Icons.refresh),
       ),
