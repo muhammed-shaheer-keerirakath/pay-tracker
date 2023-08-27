@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
+import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
@@ -6,12 +8,26 @@ import 'package:pay_tracker/types/inbox_sms_message.dart';
 
 class MessageStoreModel extends ChangeNotifier {
   final List<DateGroupedSms> _dateGroupedSms = [];
+  final String currentMonth =
+      DateFormat(cardDateGroupedFormat).format(DateTime.now()).split('-')[1];
+  String dailySpendCurrencyName = "";
+  double totalMonthlySpend = 0;
+
+  List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
 
   void _addGroupedSms(DateGroupedSms dateGroupedSms) {
+    if (dateGroupedSms.currentMonth == currentMonth) {
+      if (dailySpendCurrencyName.isEmpty) {
+        dailySpendCurrencyName = dateGroupedSms.dailySpendCurrencyName;
+      }
+      totalMonthlySpend += dateGroupedSms.dailySpend;
+    }
     _dateGroupedSms.add(dateGroupedSms);
   }
 
   void _clearGroupedSms() {
+    dailySpendCurrencyName = "";
+    totalMonthlySpend = 0;
     _dateGroupedSms.clear();
   }
 
@@ -46,6 +62,4 @@ class MessageStoreModel extends ChangeNotifier {
     }
     notifyListeners();
   }
-
-  List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
 }

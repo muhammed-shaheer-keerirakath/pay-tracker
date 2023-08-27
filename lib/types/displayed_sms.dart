@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 
 class DisplayedSms {
@@ -32,7 +33,7 @@ class DisplayedSms {
   /// eg: "04"
   late String day;
 
-  /// eg: "June"
+  /// eg: "Jun"
   late String month;
 
   /// eg: "2023"
@@ -63,7 +64,7 @@ class DisplayedSms {
       balanceType = smsBodyRegex.namedGroup('availableAmountType') ?? '';
       dateTime = DateTime.fromMillisecondsSinceEpoch(sms.date);
       List<String> dateFormat =
-          DateFormat('dd-MMM-y-EEE-hh-mm-a').format(dateTime).split('-');
+          DateFormat(cardDateGroupedFormat).format(dateTime).split('-');
       day = dateFormat[0];
       month = dateFormat[1];
       year = dateFormat[2];
