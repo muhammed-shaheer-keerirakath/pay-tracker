@@ -11,23 +11,26 @@ class MessageStoreModel extends ChangeNotifier {
   final String currentMonth =
       DateFormat(cardDateGroupedFormat).format(DateTime.now()).split('-')[1];
   String dailySpendCurrencyName = "";
-  double totalMonthlySpend = 0;
+  final List<double> _dailySpend = [];
 
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
+  List<double> get dailySpend => _dailySpend;
+  double get totalMonthlySpend =>
+      _dailySpend.reduce((value, element) => value + element);
 
   void _addGroupedSms(DateGroupedSms dateGroupedSms) {
     if (dateGroupedSms.currentMonth == currentMonth) {
       if (dailySpendCurrencyName.isEmpty) {
         dailySpendCurrencyName = dateGroupedSms.dailySpendCurrencyName;
       }
-      totalMonthlySpend += dateGroupedSms.dailySpend;
+      _dailySpend.add(dateGroupedSms.dailySpend);
     }
     _dateGroupedSms.add(dateGroupedSms);
   }
 
   void _clearGroupedSms() {
     dailySpendCurrencyName = "";
-    totalMonthlySpend = 0;
+    _dailySpend.clear();
     _dateGroupedSms.clear();
   }
 
