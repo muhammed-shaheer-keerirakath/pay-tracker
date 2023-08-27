@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list.dart';
 import 'package:pay_tracker/types/card_type.dart';
@@ -14,8 +14,11 @@ class PaymentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     String heroTag = UniqueKey().toString();
     String themeModeIdentifier = getThemeModeIdentifier(context);
-    String cardSpent =
-        '${cardMessages[0].currencyName} ${cardMessages.map((e) => e.currencyValue).reduce((value, element) => value + element).toStringAsFixed(2)}';
+    String currencyName = cardMessages[0].currencyName;
+    double totalAmountSpent = cardMessages
+        .map((e) => e.currencyValue)
+        .reduce((value, element) => value + element);
+    String cardSpent = '$currencyName ${totalAmountSpent.toStringAsFixed(2)}';
     String cardBalance =
         'Current ${cardMessages[0].balanceType} is ${cardMessages[0].availableAmount}';
     String cardType = cardMessages[0].cardType;
@@ -44,7 +47,9 @@ class PaymentCard extends StatelessWidget {
                   cardSpent: cardSpent,
                   cardBalance: cardBalance,
                   cardType: cardType,
+                  currencyName: currencyName,
                   cardNumber: cardNumber,
+                  totalAmountSpent: totalAmountSpent,
                   totalNumberOfTransactions: totalNumberOfTransactions,
                   totalTransactions: totalTransactions,
                 ),
@@ -67,6 +72,7 @@ class PaymentCard extends StatelessWidget {
               cardBalance: cardBalance,
               cardType: cardType,
               cardNumber: cardNumber,
+              totalAmountSpent: totalAmountSpent,
               totalNumberOfTransactions: totalNumberOfTransactions,
               totalTransactions: totalTransactions,
             ),

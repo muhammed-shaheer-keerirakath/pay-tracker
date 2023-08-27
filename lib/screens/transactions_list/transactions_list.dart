@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/image_constants.dart';
+import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
@@ -15,6 +17,8 @@ class TransactionsList extends StatelessWidget {
     required this.cardBalance,
     required this.cardType,
     required this.cardNumber,
+    required this.currencyName,
+    required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
   });
@@ -25,6 +29,8 @@ class TransactionsList extends StatelessWidget {
   final String cardBalance;
   final String cardType;
   final String cardNumber;
+  final String currencyName;
+  final double totalAmountSpent;
   final int totalNumberOfTransactions;
   final String totalTransactions;
 
@@ -34,7 +40,26 @@ class TransactionsList extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(appName),
+        title: const Text(appTitleTransactionsList),
+        actions: [
+          IconButton(
+            icon: const Icon(
+              Icons.settings,
+            ),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => CardSettings(
+                    cardType: cardType,
+                    currencyName: currencyName,
+                    cardNumber: cardNumber,
+                  ),
+                ),
+              );
+            },
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -66,6 +91,7 @@ class TransactionsList extends StatelessWidget {
                     cardBalance: cardBalance,
                     cardType: cardType,
                     cardNumber: cardNumber,
+                    totalAmountSpent: totalAmountSpent,
                     totalNumberOfTransactions: totalNumberOfTransactions,
                     totalTransactions: totalTransactions,
                   ),

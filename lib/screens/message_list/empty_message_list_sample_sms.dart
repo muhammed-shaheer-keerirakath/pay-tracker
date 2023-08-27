@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/app_constants.dart';
+import 'package:pay_tracker/constants/sms_reader_constants.dart';
 
 class EmptyMessageListSampleSms extends StatelessWidget {
   const EmptyMessageListSampleSms({super.key});
@@ -38,8 +38,8 @@ class EmptyMessageListSampleSms extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Row(
-                children: const [
+              const Row(
+                children: [
                   Icon(Icons.account_circle_outlined),
                   SizedBox(
                     width: 8,

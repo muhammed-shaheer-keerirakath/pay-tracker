@@ -1,6 +1,10 @@
-import 'package:flutter/material.dart';
+import 'dart:math';
 
-class PaymentCardContent extends StatelessWidget {
+import 'package:flutter/material.dart';
+import 'package:pay_tracker/constants/identifier_constants.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+class PaymentCardContent extends StatefulWidget {
   const PaymentCardContent({
     super.key,
     required this.openedView,
@@ -8,6 +12,7 @@ class PaymentCardContent extends StatelessWidget {
     required this.cardBalance,
     required this.cardType,
     required this.cardNumber,
+    required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
   });
@@ -16,8 +21,32 @@ class PaymentCardContent extends StatelessWidget {
   final String cardBalance;
   final String cardType;
   final String cardNumber;
+  final double totalAmountSpent;
   final int totalNumberOfTransactions;
   final String totalTransactions;
+
+  @override
+  State<PaymentCardContent> createState() => _PaymentCardContentState();
+}
+
+class _PaymentCardContentState extends State<PaymentCardContent> {
+  int dailyLimit = 0;
+  double percentageConsumed = 0;
+  Future<void> _loadCardLimit() async {
+    final preferences = await SharedPreferences.getInstance();
+    setState(() {
+      dailyLimit = (preferences
+              .getInt('$cardLimitKey${widget.cardType}${widget.cardNumber}') ??
+          0);
+      percentageConsumed = (widget.totalAmountSpent / dailyLimit * 100);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadCardLimit();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +61,7 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardSpent,
+                    text: widget.cardSpent,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -50,13 +79,89 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardBalance,
+                    text: widget.cardBalance,
                   ),
                 ],
               ),
             ),
           ],
         ),
+        Expanded(child: Container()),
+        if (dailyLimit != 0)
+          Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: RichText(
+                      text: TextSpan(
+                        style: DefaultTextStyle.of(context).style,
+                        children: [
+                          const TextSpan(
+                            text: 'Consumed: ',
+                          ),
+                          TextSpan(
+                            text:
+                                '${(min(percentageConsumed, 100)).toStringAsFixed(0)}%',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(6)),
+                      child: LinearProgressIndicator(
+                        value: widget.totalAmountSpent / dailyLimit,
+                        semanticsLabel: 'Daily limit indicator',
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              if (percentageConsumed > 100)
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 1,
+                      child: RichText(
+                        text: TextSpan(
+                          style: DefaultTextStyle.of(context).style,
+                          children: [
+                            const TextSpan(
+                              text: 'Overspent: ',
+                            ),
+                            TextSpan(
+                              text:
+                                  '${(percentageConsumed - 100).toStringAsFixed(0)}%',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: ClipRRect(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(6)),
+                        child: LinearProgressIndicator(
+                          value: (percentageConsumed - 100) / 100,
+                          semanticsLabel: 'Daily limit indicator',
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+            ],
+          ),
         Expanded(child: Container()),
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
@@ -66,13 +171,13 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: cardType,
+                    text: widget.cardType,
                   ),
                   const TextSpan(
                     text: ' XXXX ',
                   ),
                   TextSpan(
-                    text: cardNumber,
+                    text: widget.cardNumber,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -86,22 +191,22 @@ class PaymentCardContent extends StatelessWidget {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: totalNumberOfTransactions.toString(),
+                    text: widget.totalNumberOfTransactions.toString(),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextSpan(
-                    text: totalTransactions,
+                    text: widget.totalTransactions,
                   ),
-                  if (openedView)
+                  if (widget.openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
                         Icons.keyboard_double_arrow_down_outlined,
                       ),
                     ),
-                  if (!openedView)
+                  if (!widget.openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
