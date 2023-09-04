@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/development_constants.dart';
 import 'package:pay_tracker/screens/home_page/home_page.dart';
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
     return MaterialApp(
       debugShowCheckedModeBanner: useDebugBanner,
       title: appName,
