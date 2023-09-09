@@ -16,7 +16,8 @@ class MessageList extends StatelessWidget {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
 
-    List<DateGroupedSms> messages = messageStoreModel.groupedMessages;
+    List<DateGroupedSms> messages =
+        messageStoreModel.groupedMessages.sublist(0, 31);
 
     if (messages.isEmpty) {
       return const EmptyMessageList();
