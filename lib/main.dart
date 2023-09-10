@@ -13,7 +13,19 @@ void main() {
   if (useDebugBorders) {
     debugPaintSizeEnabled = true;
   }
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider<LocalStoreModel>(
+          create: (_) => LocalStoreModel(),
+        ),
+        ChangeNotifierProvider<MessageStoreModel>(
+          create: (_) => MessageStoreModel(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -29,17 +41,7 @@ class MyApp extends StatelessWidget {
       theme: themeData,
       darkTheme: darkThemeData,
       themeMode: ThemeMode.system,
-      home: MultiProvider(
-        providers: [
-          ChangeNotifierProvider<LocalStoreModel>(
-            create: (_) => LocalStoreModel(),
-          ),
-          ChangeNotifierProvider<MessageStoreModel>(
-            create: (_) => MessageStoreModel(),
-          ),
-        ],
-        child: const HomePage(),
-      ),
+      home: const HomePage(),
     );
   }
 }
