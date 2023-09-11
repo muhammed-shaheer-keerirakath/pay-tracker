@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
-import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
+import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 
 class MessageStoreModel extends ChangeNotifier {
   final List<DateGroupedSms> _dateGroupedSms = [];
+  final Map<String, List<String>> _cardTypesAndNumbers = {};
+  late MonthlyAnalytics _monthlyAnalytics;
+
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
 
-  late MonthlyAnalytics _monthlyAnalytics;
+  Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
+
   MonthlySpending getMonthlySpending([String? month]) {
     month ??= _monthlyAnalytics.currentMonth;
     MonthlySpending? monthlySpending = _monthlyAnalytics.monthlySpending[month];
@@ -40,9 +44,24 @@ class MessageStoreModel extends ChangeNotifier {
     for (var inboxMessage in inboxMessages) {
       RegExpMatch? regexMatch = regExp.firstMatch(inboxMessage.body);
       if (regexMatch != null) {
-        displayedSms.add(DisplayedSms(regexMatch, inboxMessage));
+        DisplayedSms displayedSmsObject =
+            DisplayedSms(regexMatch, inboxMessage);
+        displayedSms.add(displayedSmsObject);
+        if (_cardTypesAndNumbers.containsKey(displayedSmsObject.cardType)) {
+          if (!(_cardTypesAndNumbers[displayedSmsObject.cardType]
+                  ?.contains(displayedSmsObject.cardNumber) ??
+              false)) {
+            _cardTypesAndNumbers[displayedSmsObject.cardType]
+                ?.add(displayedSmsObject.cardNumber);
+          }
+        } else {
+          _cardTypesAndNumbers[displayedSmsObject.cardType] = [
+            displayedSmsObject.cardNumber
+          ];
+        }
       }
     }
+
     String? dateStamp = displayedSms.isNotEmpty
         ? displayedSms[0].dateTime.toString().substring(0, 10)
         : null;

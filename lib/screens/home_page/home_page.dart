@@ -5,6 +5,7 @@ import 'package:pay_tracker/screens/error_boundary/error_boundary.dart';
 import 'package:pay_tracker/screens/message_list/message_list.dart';
 import 'package:pay_tracker/screens/no_sms_access/no_sms_access.dart';
 import 'package:pay_tracker/screens/progress/progress_loader.dart';
+import 'package:pay_tracker/stores/local_store_model.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
@@ -15,6 +16,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    LocalStoreModel localStoreModel =
+        Provider.of<LocalStoreModel>(context, listen: false);
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context, listen: false);
 
@@ -36,6 +39,8 @@ class HomePage extends StatelessWidget {
       }
       if (smsPermissionFailed || exceptionOccurred) return;
       await messageStoreModel.addInboxMessagesToStore(inboxMessages);
+      await localStoreModel
+          .loadCardLimits(messageStoreModel.cardTypesAndNumbers);
       await Future.delayed(const Duration(milliseconds: 100), () {});
     }
 
