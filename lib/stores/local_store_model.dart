@@ -24,7 +24,7 @@ class LocalStoreModel extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setCardLimit(
+  Future<void> saveCardLimit(
       String cardType, String cardNumber, int limit) async {
     final preferences = await SharedPreferences.getInstance();
     String cardSignature = _generateCardSignature(cardType, cardNumber);

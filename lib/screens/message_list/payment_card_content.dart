@@ -27,8 +27,7 @@ class PaymentCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LocalStoreModel localStoreModel =
-        Provider.of<LocalStoreModel>(context, listen: false);
+    LocalStoreModel localStoreModel = Provider.of<LocalStoreModel>(context);
     int dailyCardLimit = localStoreModel.getCardLimit(cardType, cardNumber);
     double percentageConsumed = (totalAmountSpent / dailyCardLimit * 100);
 
