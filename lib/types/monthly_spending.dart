@@ -20,6 +20,7 @@ class MonthlySpending {
   double totalSpending = 0;
 
   MonthlySpending.empty();
+
   MonthlySpending(Map<String, List<DateGroupedSms>> yearlySpending,
       String month, this.currentMonth, this.currentYear) {
     yearlySpending[month]?.forEach((dateGroupedMessage) {

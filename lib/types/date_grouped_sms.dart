@@ -15,7 +15,10 @@ class DateGroupedSms {
   /// eg: 512.99
   double debitCardsTotalCurrencyValue = 0;
 
+  /// eg: { "0189":[..DisplayedSms...] }
   late Map<String, List<DisplayedSms>> creditCards = {};
+
+  /// eg: { "0189":[..DisplayedSms...] }
   late Map<String, List<DisplayedSms>> debitCards = {};
 
   DateGroupedSms(List<DisplayedSms> messages) {
