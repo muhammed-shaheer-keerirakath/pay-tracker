@@ -9,29 +9,31 @@ import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
-    super.key,
-    required this.heroTag,
+    required this.availableAmount,
+    required this.balanceType,
     required this.cardImageUri,
     required this.cardMessages,
-    required this.cardSpent,
-    required this.cardBalance,
-    required this.cardType,
     required this.cardNumber,
+    required this.cardSpent,
+    required this.cardType,
     required this.currencyName,
+    required this.heroTag,
     required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
+    super.key,
   });
-  final String heroTag;
-  final String cardImageUri;
-  final List<DisplayedSms> cardMessages;
-  final String cardSpent;
-  final String cardBalance;
-  final String cardType;
-  final String cardNumber;
-  final String currencyName;
   final double totalAmountSpent;
   final int totalNumberOfTransactions;
+  final List<DisplayedSms> cardMessages;
+  final String availableAmount;
+  final String balanceType;
+  final String cardImageUri;
+  final String cardNumber;
+  final String cardSpent;
+  final String cardType;
+  final String currencyName;
+  final String heroTag;
   final String totalTransactions;
 
   @override
@@ -86,11 +88,12 @@ class TransactionsList extends StatelessWidget {
                     ),
                   ),
                   child: PaymentCardContent(
-                    openedView: true,
-                    cardSpent: cardSpent,
-                    cardBalance: cardBalance,
-                    cardType: cardType,
+                    availableAmount: availableAmount,
+                    balanceType: balanceType,
                     cardNumber: cardNumber,
+                    cardSpent: cardSpent,
+                    cardType: cardType,
+                    openedView: true,
                     totalAmountSpent: totalAmountSpent,
                     totalNumberOfTransactions: totalNumberOfTransactions,
                     totalTransactions: totalTransactions,

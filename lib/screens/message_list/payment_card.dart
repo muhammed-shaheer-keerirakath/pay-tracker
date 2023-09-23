@@ -19,8 +19,6 @@ class PaymentCard extends StatelessWidget {
         .map((e) => e.currencyValue)
         .reduce((value, element) => value + element);
     String cardSpent = '$currencyName ${totalAmountSpent.toStringAsFixed(2)}';
-    String cardBalance =
-        'Current ${cardMessages[0].balanceType} is ${cardMessages[0].availableAmount}';
     String cardType = cardMessages[0].cardType;
     String cardNumber = cardMessages[0].cardNumber;
     int totalNumberOfTransactions = cardMessages.length;
@@ -41,14 +39,15 @@ class PaymentCard extends StatelessWidget {
               context,
               MaterialPageRoute(
                 builder: (context) => TransactionsList(
-                  heroTag: heroTag,
+                  availableAmount: cardMessages[0].availableAmount,
+                  balanceType: cardMessages[0].balanceType,
                   cardImageUri: cardImageUri,
                   cardMessages: cardMessages,
+                  cardNumber: cardNumber,
                   cardSpent: cardSpent,
-                  cardBalance: cardBalance,
                   cardType: cardType,
                   currencyName: currencyName,
-                  cardNumber: cardNumber,
+                  heroTag: heroTag,
                   totalAmountSpent: totalAmountSpent,
                   totalNumberOfTransactions: totalNumberOfTransactions,
                   totalTransactions: totalTransactions,
@@ -67,11 +66,12 @@ class PaymentCard extends StatelessWidget {
               ),
             ),
             child: PaymentCardContent(
-              openedView: false,
-              cardSpent: cardSpent,
-              cardBalance: cardBalance,
-              cardType: cardType,
+              availableAmount: cardMessages[0].availableAmount,
+              balanceType: cardMessages[0].balanceType,
               cardNumber: cardNumber,
+              cardSpent: cardSpent,
+              cardType: cardType,
+              openedView: false,
               totalAmountSpent: totalAmountSpent,
               totalNumberOfTransactions: totalNumberOfTransactions,
               totalTransactions: totalTransactions,

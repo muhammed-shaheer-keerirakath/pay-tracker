@@ -6,23 +6,25 @@ import 'package:provider/provider.dart';
 
 class PaymentCardContent extends StatelessWidget {
   const PaymentCardContent({
-    super.key,
-    required this.openedView,
-    required this.cardSpent,
-    required this.cardBalance,
-    required this.cardType,
+    required this.availableAmount,
+    required this.balanceType,
     required this.cardNumber,
+    required this.cardSpent,
+    required this.cardType,
+    required this.openedView,
     required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
+    super.key,
   });
   final bool openedView;
-  final String cardSpent;
-  final String cardBalance;
-  final String cardType;
-  final String cardNumber;
   final double totalAmountSpent;
   final int totalNumberOfTransactions;
+  final String availableAmount;
+  final String balanceType;
+  final String cardNumber;
+  final String cardSpent;
+  final String cardType;
   final String totalTransactions;
 
   @override
@@ -59,8 +61,20 @@ class PaymentCardContent extends StatelessWidget {
               text: TextSpan(
                 style: DefaultTextStyle.of(context).style,
                 children: [
+                  const TextSpan(
+                    text: 'Current ',
+                  ),
                   TextSpan(
-                    text: cardBalance,
+                    text: balanceType,
+                  ),
+                  const TextSpan(
+                    text: ' is ',
+                  ),
+                  TextSpan(
+                    text: availableAmount,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
