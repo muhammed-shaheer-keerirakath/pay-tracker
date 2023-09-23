@@ -15,18 +15,26 @@ class DateGroupedSms {
   /// eg: 512.99
   double debitCardsTotalCurrencyValue = 0;
 
-  late List<DisplayedSms> creditCards = [];
-  late List<DisplayedSms> debitCards = [];
+  late Map<String, List<DisplayedSms>> creditCards = {};
+  late Map<String, List<DisplayedSms>> debitCards = {};
 
   DateGroupedSms(List<DisplayedSms> messages) {
     date = DateFormat('EEE, dd MMM y').format(messages[0].dateTime);
     currencyName = messages[0].currencyName;
     for (var message in messages) {
       if (message.cardType == CardType.creditCard) {
-        creditCards.add(message);
+        if (creditCards.containsKey(message.cardNumber)) {
+          creditCards[message.cardNumber]?.add(message);
+        } else {
+          creditCards[message.cardNumber] = [message];
+        }
         creditCardsTotalCurrencyValue += message.currencyValue;
       } else if (message.cardType == CardType.debitCard) {
-        debitCards.add(message);
+        if (debitCards.containsKey(message.cardNumber)) {
+          debitCards[message.cardNumber]?.add(message);
+        } else {
+          debitCards[message.cardNumber] = [message];
+        }
         debitCardsTotalCurrencyValue += message.currencyValue;
       }
     }

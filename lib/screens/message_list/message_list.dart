@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/screens/message_list/card_list.dart';
 import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
-import 'package:pay_tracker/screens/message_list/payment_card.dart';
 import 'package:pay_tracker/screens/spending_analytics/spending_analytics.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
@@ -55,28 +55,10 @@ class MessageList extends StatelessWidget {
                           ),
                         ]),
                         messages[index].creditCards.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  PaymentCard(
-                                      cardMessages:
-                                          messages[index].creditCards),
-                                ],
-                              )
+                            ? CardList(cards: messages[index].creditCards)
                             : const SizedBox(width: 0, height: 0),
                         messages[index].debitCards.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  PaymentCard(
-                                    cardMessages: messages[index].debitCards,
-                                  ),
-                                ],
-                              )
+                            ? CardList(cards: messages[index].debitCards)
                             : const SizedBox(width: 0, height: 0),
                       ],
                     ),
