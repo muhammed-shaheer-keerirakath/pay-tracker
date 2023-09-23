@@ -15,6 +15,12 @@ class DateGroupedSms {
   /// eg: 512.99
   double debitCardsTotalCurrencyValue = 0;
 
+  /// eg: { "0189":1024.99 }
+  late Map<String, double> creditCardsCurrencyValues = {};
+
+  /// eg: { "0189":1024.99 }
+  late Map<String, double> debitCardsCurrencyValues = {};
+
   /// eg: { "0189":[..DisplayedSms...] }
   late Map<String, List<DisplayedSms>> creditCards = {};
 
@@ -27,15 +33,23 @@ class DateGroupedSms {
     for (var message in messages) {
       if (message.cardType == CardType.creditCard) {
         if (creditCards.containsKey(message.cardNumber)) {
+          creditCardsCurrencyValues[message.cardNumber] =
+              creditCardsCurrencyValues[message.cardNumber]! +
+                  message.currencyValue;
           creditCards[message.cardNumber]?.add(message);
         } else {
+          creditCardsCurrencyValues[message.cardNumber] = message.currencyValue;
           creditCards[message.cardNumber] = [message];
         }
         creditCardsTotalCurrencyValue += message.currencyValue;
       } else if (message.cardType == CardType.debitCard) {
         if (debitCards.containsKey(message.cardNumber)) {
+          debitCardsCurrencyValues[message.cardNumber] =
+              debitCardsCurrencyValues[message.cardNumber]! +
+                  message.currencyValue;
           debitCards[message.cardNumber]?.add(message);
         } else {
+          debitCardsCurrencyValues[message.cardNumber] = message.currencyValue;
           debitCards[message.cardNumber] = [message];
         }
         debitCardsTotalCurrencyValue += message.currencyValue;

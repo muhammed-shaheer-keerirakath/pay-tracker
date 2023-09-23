@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/screens/spending_analytics/spend_on_item.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 import 'package:provider/provider.dart';
@@ -30,14 +31,31 @@ class SpendingAnalytics extends StatelessWidget {
                   style: const TextStyle(fontWeight: FontWeight.bold),
                   '${monthlySpending.currentMonth} ${monthlySpending.currentYear} Analytics'),
               const SizedBox(
-                height: 6,
+                height: 8,
               ),
-              Text(
-                  '${monthlySpending.currencyName} ${monthlySpending.creditCardsTotalSpending.toStringAsFixed(2)} spent on Credit Cards'),
-              Text(
-                  '${monthlySpending.currencyName} ${monthlySpending.debitCardsTotalSpending.toStringAsFixed(2)} spent on Debit Cards'),
-              Text(
-                  '${monthlySpending.currencyName} ${monthlySpending.totalSpending.toStringAsFixed(2)} spent in total'),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SpendOnItem(
+                      currencyValue: monthlySpending.creditCardsTotalSpending,
+                      currencyName: monthlySpending.currencyName,
+                      icon: Icons.credit_card,
+                      title: 'On Credit'),
+                  SpendOnItem(
+                      currencyValue: monthlySpending.debitCardsTotalSpending,
+                      currencyName: monthlySpending.currencyName,
+                      icon: Icons.credit_card,
+                      title: 'On Debit'),
+                  SpendOnItem(
+                      currencyValue: monthlySpending.totalSpending,
+                      currencyName: monthlySpending.currencyName,
+                      icon: Icons.money,
+                      title: 'Total'),
+                ],
+              ),
+              const SizedBox(
+                height: 8,
+              ),
             ],
           ),
         ),
