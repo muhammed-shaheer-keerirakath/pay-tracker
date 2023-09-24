@@ -114,6 +114,7 @@ class PaymentCardContent extends StatelessWidget {
                       child: LinearProgressIndicator(
                         value: totalAmountSpent / dailyCardLimit,
                         semanticsLabel: 'Daily limit indicator',
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
                       ),
                     ),
                   ),
@@ -150,6 +151,8 @@ class PaymentCardContent extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: (percentageConsumed - 100) / 100,
                           semanticsLabel: 'Daily limit indicator',
+                          backgroundColor:
+                              Theme.of(context).secondaryHeaderColor,
                         ),
                       ),
                     ),

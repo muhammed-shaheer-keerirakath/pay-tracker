@@ -59,11 +59,13 @@ class SpendingAnalytics extends StatelessWidget {
                 cardType: CardType.creditCard,
                 cardsMonthlyCurrencyValues:
                     monthlySpending.creditCardsMonthlyCurrencyValues,
+                currencyName: monthlySpending.currencyName,
               ),
               CardSpecificData(
                 cardType: CardType.debitCard,
                 cardsMonthlyCurrencyValues:
                     monthlySpending.debitCardsMonthlyCurrencyValues,
+                currencyName: monthlySpending.currencyName,
               ),
             ],
           ),
