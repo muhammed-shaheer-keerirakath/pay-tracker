@@ -33,25 +33,35 @@ class DateGroupedSms {
     for (var message in messages) {
       if (message.cardType == CardType.creditCard) {
         if (creditCards.containsKey(message.cardNumber)) {
+          creditCards[message.cardNumber]?.add(message);
+        } else {
+          creditCards[message.cardNumber] = [message];
+        }
+
+        if (creditCardsCurrencyValues.containsKey(message.cardNumber)) {
           creditCardsCurrencyValues[message.cardNumber] =
               creditCardsCurrencyValues[message.cardNumber]! +
                   message.currencyValue;
-          creditCards[message.cardNumber]?.add(message);
         } else {
           creditCardsCurrencyValues[message.cardNumber] = message.currencyValue;
-          creditCards[message.cardNumber] = [message];
         }
+
         creditCardsTotalCurrencyValue += message.currencyValue;
       } else if (message.cardType == CardType.debitCard) {
         if (debitCards.containsKey(message.cardNumber)) {
+          debitCards[message.cardNumber]?.add(message);
+        } else {
+          debitCards[message.cardNumber] = [message];
+        }
+
+        if (debitCardsCurrencyValues.containsKey(message.cardNumber)) {
           debitCardsCurrencyValues[message.cardNumber] =
               debitCardsCurrencyValues[message.cardNumber]! +
                   message.currencyValue;
-          debitCards[message.cardNumber]?.add(message);
         } else {
           debitCardsCurrencyValues[message.cardNumber] = message.currencyValue;
-          debitCards[message.cardNumber] = [message];
         }
+
         debitCardsTotalCurrencyValue += message.currencyValue;
       }
     }

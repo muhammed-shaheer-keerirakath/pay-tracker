@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/screens/spending_analytics/card_specific_data.dart';
 import 'package:pay_tracker/screens/spending_analytics/spend_on_item.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
@@ -55,6 +56,14 @@ class SpendingAnalytics extends StatelessWidget {
               ),
               const SizedBox(
                 height: 8,
+              ),
+              CardSpecificData(
+                cardsMonthlyCurrencyValues:
+                    monthlySpending.creditCardsMonthlyCurrencyValues,
+              ),
+              CardSpecificData(
+                cardsMonthlyCurrencyValues:
+                    monthlySpending.debitCardsMonthlyCurrencyValues,
               ),
             ],
           ),
