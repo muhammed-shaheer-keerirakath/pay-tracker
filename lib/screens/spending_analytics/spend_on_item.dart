@@ -16,7 +16,10 @@ class SpendOnItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(children: [
-      Icon(icon),
+      Icon(
+        icon,
+        size: 18,
+      ),
       const SizedBox(
         width: 6,
       ),
@@ -27,6 +30,7 @@ class SpendOnItem extends StatelessWidget {
         Text(
           '$currencyName ${currencyValue.toStringAsFixed(2)}',
           style: const TextStyle(
+            fontSize: 12,
             fontWeight: FontWeight.bold,
           ),
         ),

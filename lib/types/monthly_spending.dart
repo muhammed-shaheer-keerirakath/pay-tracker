@@ -1,5 +1,4 @@
 import 'package:pay_tracker/types/date_grouped_sms.dart';
-import 'package:pay_tracker/types/displayed_sms.dart';
 
 class MonthlySpending {
   /// eg: "Sep"
