@@ -17,8 +17,8 @@ class MessageList extends StatelessWidget {
         Provider.of<MessageStoreModel>(context);
 
     List<DateGroupedSms> messages =
-        messageStoreModel.groupedMessages.length >= 30
-            ? messageStoreModel.groupedMessages.sublist(0, 30)
+        messageStoreModel.groupedMessages.length >= 10
+            ? messageStoreModel.groupedMessages.sublist(0, 10)
             : messageStoreModel.groupedMessages;
 
     if (messages.isEmpty) {
@@ -26,11 +26,13 @@ class MessageList extends StatelessWidget {
     }
     return Column(
       children: [
-        const SpendingAnalytics(),
+        // const SpendingAnalytics(),
         Expanded(
           child: ListView.builder(
-            itemCount: messages.length,
+            itemCount: messages.length + 1,
             itemBuilder: (BuildContext buildContext, int index) {
+              int currentIndex = index - 1;
+              if (currentIndex == -1) return const SpendingAnalytics();
               return Padding(
                 padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: Card(
@@ -47,18 +49,19 @@ class MessageList extends StatelessWidget {
                       children: [
                         Row(children: [
                           Text(
-                            messages[index].date,
+                            messages[currentIndex].date,
                             style: TextStyle(
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ]),
-                        messages[index].creditCards.isNotEmpty
-                            ? CardList(cards: messages[index].creditCards)
+                        messages[currentIndex].creditCards.isNotEmpty
+                            ? CardList(
+                                cards: messages[currentIndex].creditCards)
                             : const SizedBox(width: 0, height: 0),
-                        messages[index].debitCards.isNotEmpty
-                            ? CardList(cards: messages[index].debitCards)
+                        messages[currentIndex].debitCards.isNotEmpty
+                            ? CardList(cards: messages[currentIndex].debitCards)
                             : const SizedBox(width: 0, height: 0),
                       ],
                     ),
