@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
+import 'package:pay_tracker/screens/spending_analytics/data_row_item.dart';
 import 'package:pay_tracker/stores/local_store_model.dart';
 import 'package:provider/provider.dart';
 
@@ -23,6 +24,7 @@ class CardSpecificDataRow extends StatelessWidget {
     int numberOfDaysInMonth = 31;
     int dailyCardLimit = localStoreModel.getCardLimit(cardType, cardNumber);
     int monthlyCardLimit = dailyCardLimit * numberOfDaysInMonth;
+    double overSpent = cardPaymentCurrencyValue - monthlyCardLimit;
 
     return Card(
       elevation: 0,
@@ -35,16 +37,20 @@ class CardSpecificDataRow extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.all(12),
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            RotatedBox(
-              quarterTurns: -1,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(4),
-                child: Image.asset(
-                  '${creditCardCoverImageUri}_light$cardCoverFileType',
-                  height: 26,
-                  width: 42,
-                  fit: BoxFit.cover,
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: RotatedBox(
+                quarterTurns: -1,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(4),
+                  child: Image.asset(
+                    '${creditCardCoverImageUri}_light$cardCoverFileType',
+                    height: 26,
+                    width: 42,
+                    fit: BoxFit.cover,
+                  ),
                 ),
               ),
             ),
@@ -53,68 +59,38 @@ class CardSpecificDataRow extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        '$cardType ',
-                      ),
-                      Text(
-                        cardNumber,
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
+                  DataRowItem(
+                    title: cardType,
+                    data: cardNumber,
                   ),
-                  const SizedBox(height: 4),
-                  Row(
-                    children: [
-                      const Text(
-                        'Spent ',
-                      ),
-                      Text(
+                  DataRowItem(
+                    title: 'Monthly Limit',
+                    data: '$currencyName ${monthlyCardLimit.toString()}',
+                    secondaryData:
+                        '($currencyName $dailyCardLimit for $numberOfDaysInMonth days)',
+                    shouldHide: (dailyCardLimit <= 0),
+                  ),
+                  DataRowItem(
+                    title: 'Spent',
+                    data:
                         '$currencyName ${cardPaymentCurrencyValue.toStringAsFixed(2)}',
-                        style: const TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      const SizedBox(width: 8),
-                      if ((cardPaymentCurrencyValue > 0) &&
-                          (dailyCardLimit > 0))
-                        Expanded(
-                          flex: 2,
-                          child: ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6)),
-                            child: LinearProgressIndicator(
-                              value:
-                                  monthlyCardLimit / cardPaymentCurrencyValue,
-                              semanticsLabel: 'Monthly limit indicator',
-                              backgroundColor:
-                                  Theme.of(context).secondaryHeaderColor,
-                            ),
-                          ),
-                        ),
-                    ],
+                    progressNumerator: cardPaymentCurrencyValue,
+                    progressDinominator: monthlyCardLimit.toDouble(),
                   ),
-                  const SizedBox(height: 4),
-                  if (dailyCardLimit > 0)
-                    Row(
-                      children: [
-                        const Text(
-                          'Limit ',
-                        ),
-                        Text(
-                          '$currencyName ${monthlyCardLimit.toString()} ',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
-                        Text(
-                          '($currencyName $dailyCardLimit for $numberOfDaysInMonth days)',
-                        ),
-                      ],
-                    ),
+                  DataRowItem(
+                    title: 'Overspent',
+                    data: '$currencyName ${overSpent.toStringAsFixed(2)}',
+                    progressNumerator: overSpent,
+                    progressDinominator: monthlyCardLimit.toDouble(),
+                    shouldHide: (dailyCardLimit <= 0) || (overSpent <= 0),
+                  ),
+                  DataRowItem(
+                    title: 'Underspent',
+                    data: '$currencyName ${overSpent.abs().toStringAsFixed(2)}',
+                    progressNumerator: overSpent.abs(),
+                    progressDinominator: monthlyCardLimit.toDouble(),
+                    shouldHide: (dailyCardLimit <= 0) || (overSpent >= 0),
+                  ),
                 ],
               ),
             ),
