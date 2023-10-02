@@ -11,6 +11,12 @@ class MessageStoreModel extends ChangeNotifier {
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics;
 
+  String get currentYear => _monthlyAnalytics.currentYear;
+
+  String get currentMonth => _monthlyAnalytics.currentMonth;
+
+  String get currentDay => _monthlyAnalytics.currentDay;
+
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
 
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
