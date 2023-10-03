@@ -1,55 +1,38 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/identifier_constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pay_tracker/stores/local_store_model.dart';
+import 'package:provider/provider.dart';
 
-class PaymentCardContent extends StatefulWidget {
+class PaymentCardContent extends StatelessWidget {
   const PaymentCardContent({
-    super.key,
-    required this.openedView,
-    required this.cardSpent,
-    required this.cardBalance,
-    required this.cardType,
+    required this.availableAmount,
+    required this.balanceType,
     required this.cardNumber,
+    required this.cardSpent,
+    required this.cardType,
+    required this.openedView,
     required this.totalAmountSpent,
     required this.totalNumberOfTransactions,
     required this.totalTransactions,
+    super.key,
   });
   final bool openedView;
-  final String cardSpent;
-  final String cardBalance;
-  final String cardType;
-  final String cardNumber;
   final double totalAmountSpent;
   final int totalNumberOfTransactions;
+  final String availableAmount;
+  final String balanceType;
+  final String cardNumber;
+  final String cardSpent;
+  final String cardType;
   final String totalTransactions;
 
   @override
-  State<PaymentCardContent> createState() => _PaymentCardContentState();
-}
-
-class _PaymentCardContentState extends State<PaymentCardContent> {
-  int dailyLimit = 0;
-  double percentageConsumed = 0;
-  Future<void> _loadCardLimit() async {
-    final preferences = await SharedPreferences.getInstance();
-    setState(() {
-      dailyLimit = (preferences
-              .getInt('$cardLimitKey${widget.cardType}${widget.cardNumber}') ??
-          0);
-      percentageConsumed = (widget.totalAmountSpent / dailyLimit * 100);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _loadCardLimit();
-  }
-
-  @override
   Widget build(BuildContext context) {
+    LocalStoreModel localStoreModel = Provider.of<LocalStoreModel>(context);
+    int dailyCardLimit = localStoreModel.getCardLimit(cardType, cardNumber);
+    double percentageConsumed = (totalAmountSpent / dailyCardLimit * 100);
+
     return Padding(
       padding: const EdgeInsets.all(12),
       child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -61,7 +44,7 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: widget.cardSpent,
+                    text: cardSpent,
                     style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -78,8 +61,20 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
               text: TextSpan(
                 style: DefaultTextStyle.of(context).style,
                 children: [
+                  const TextSpan(
+                    text: 'Current ',
+                  ),
                   TextSpan(
-                    text: widget.cardBalance,
+                    text: balanceType,
+                  ),
+                  const TextSpan(
+                    text: ' is ',
+                  ),
+                  TextSpan(
+                    text: availableAmount,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ],
               ),
@@ -87,7 +82,7 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
           ],
         ),
         Expanded(child: Container()),
-        if (dailyLimit != 0)
+        if (dailyCardLimit != 0)
           Column(
             children: [
               Row(
@@ -117,8 +112,9 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(6)),
                       child: LinearProgressIndicator(
-                        value: widget.totalAmountSpent / dailyLimit,
+                        value: totalAmountSpent / dailyCardLimit,
                         semanticsLabel: 'Daily limit indicator',
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
                       ),
                     ),
                   ),
@@ -155,6 +151,8 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                         child: LinearProgressIndicator(
                           value: (percentageConsumed - 100) / 100,
                           semanticsLabel: 'Daily limit indicator',
+                          backgroundColor:
+                              Theme.of(context).secondaryHeaderColor,
                         ),
                       ),
                     ),
@@ -171,13 +169,13 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: widget.cardType,
+                    text: cardType,
                   ),
                   const TextSpan(
                     text: ' XXXX ',
                   ),
                   TextSpan(
-                    text: widget.cardNumber,
+                    text: cardNumber,
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
@@ -191,22 +189,22 @@ class _PaymentCardContentState extends State<PaymentCardContent> {
                 style: DefaultTextStyle.of(context).style,
                 children: [
                   TextSpan(
-                    text: widget.totalNumberOfTransactions.toString(),
+                    text: totalNumberOfTransactions.toString(),
                     style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),
                   TextSpan(
-                    text: widget.totalTransactions,
+                    text: totalTransactions,
                   ),
-                  if (widget.openedView)
+                  if (openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(
                         Icons.keyboard_double_arrow_down_outlined,
                       ),
                     ),
-                  if (!widget.openedView)
+                  if (!openedView)
                     const WidgetSpan(
                       alignment: PlaceholderAlignment.middle,
                       child: Icon(

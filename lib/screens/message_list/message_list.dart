@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/screens/message_list/card_list.dart';
 import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
-import 'package:pay_tracker/screens/message_list/payment_card.dart';
 import 'package:pay_tracker/screens/spending_analytics/spending_analytics.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
@@ -16,18 +16,23 @@ class MessageList extends StatelessWidget {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
 
-    List<DateGroupedSms> messages = messageStoreModel.groupedMessages;
+    List<DateGroupedSms> messages =
+        messageStoreModel.groupedMessages.length >= 10
+            ? messageStoreModel.groupedMessages.sublist(0, 10)
+            : messageStoreModel.groupedMessages;
 
     if (messages.isEmpty) {
       return const EmptyMessageList();
     }
     return Column(
       children: [
-        const SpendingAnalytics(),
+        // const SpendingAnalytics(),
         Expanded(
           child: ListView.builder(
-            itemCount: messages.length,
+            itemCount: messages.length + 1,
             itemBuilder: (BuildContext buildContext, int index) {
+              int currentIndex = index - 1;
+              if (currentIndex == -1) return const SpendingAnalytics();
               return Padding(
                 padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: Card(
@@ -44,36 +49,19 @@ class MessageList extends StatelessWidget {
                       children: [
                         Row(children: [
                           Text(
-                            messages[index].date,
+                            messages[currentIndex].date,
                             style: TextStyle(
                               fontSize: 16,
                               color: Theme.of(context).colorScheme.primary,
                             ),
                           ),
                         ]),
-                        messages[index].creditCards.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  PaymentCard(
-                                      cardMessages:
-                                          messages[index].creditCards),
-                                ],
-                              )
+                        messages[currentIndex].creditCards.isNotEmpty
+                            ? CardList(
+                                cards: messages[currentIndex].creditCards)
                             : const SizedBox(width: 0, height: 0),
-                        messages[index].debitCards.isNotEmpty
-                            ? Column(
-                                children: [
-                                  const SizedBox(
-                                    height: 12,
-                                  ),
-                                  PaymentCard(
-                                    cardMessages: messages[index].debitCards,
-                                  ),
-                                ],
-                              )
+                        messages[currentIndex].debitCards.isNotEmpty
+                            ? CardList(cards: messages[currentIndex].debitCards)
                             : const SizedBox(width: 0, height: 0),
                       ],
                     ),

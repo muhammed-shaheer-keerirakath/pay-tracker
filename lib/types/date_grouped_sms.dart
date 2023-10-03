@@ -6,27 +6,63 @@ class DateGroupedSms {
   /// eg: "Sat, 26 Aug 2023"
   late String date;
 
-  /// eg: "Aug"
-  late String currentMonth;
-
   /// eg: "AED"
-  late String dailySpendCurrencyName;
+  late String currencyName;
 
-  /// eg: 99.80
-  late double dailySpend = 0;
-  late List<DisplayedSms> creditCards = [];
-  late List<DisplayedSms> debitCards = [];
+  /// eg: 1024.99
+  double creditCardsTotalCurrencyValue = 0;
+
+  /// eg: 512.99
+  double debitCardsTotalCurrencyValue = 0;
+
+  /// eg: { "0189":1024.99 }
+  late Map<String, double> creditCardsCurrencyValues = {};
+
+  /// eg: { "0189":1024.99 }
+  late Map<String, double> debitCardsCurrencyValues = {};
+
+  /// eg: { "0189":[..DisplayedSms...] }
+  late Map<String, List<DisplayedSms>> creditCards = {};
+
+  /// eg: { "0189":[..DisplayedSms...] }
+  late Map<String, List<DisplayedSms>> debitCards = {};
 
   DateGroupedSms(List<DisplayedSms> messages) {
     date = DateFormat('EEE, dd MMM y').format(messages[0].dateTime);
-    currentMonth = messages[0].month;
-    dailySpendCurrencyName = messages[0].currencyName;
+    currencyName = messages[0].currencyName;
     for (var message in messages) {
-      dailySpend += message.currencyValue;
       if (message.cardType == CardType.creditCard) {
-        creditCards.add(message);
+        if (creditCards.containsKey(message.cardNumber)) {
+          creditCards[message.cardNumber]?.add(message);
+        } else {
+          creditCards[message.cardNumber] = [message];
+        }
+
+        if (creditCardsCurrencyValues.containsKey(message.cardNumber)) {
+          creditCardsCurrencyValues[message.cardNumber] =
+              creditCardsCurrencyValues[message.cardNumber]! +
+                  message.currencyValue;
+        } else {
+          creditCardsCurrencyValues[message.cardNumber] = message.currencyValue;
+        }
+
+        creditCardsTotalCurrencyValue += message.currencyValue;
       } else if (message.cardType == CardType.debitCard) {
-        debitCards.add(message);
+        if (debitCards.containsKey(message.cardNumber)) {
+          debitCards[message.cardNumber]?.add(message);
+        } else {
+          debitCards[message.cardNumber] = [message];
+        }
+
+        if (debitCardsCurrencyValues.containsKey(message.cardNumber)) {
+          debitCardsCurrencyValues[message.cardNumber] =
+              debitCardsCurrencyValues[message.cardNumber]! +
+                  message.currencyValue;
+        } else {
+          debitCardsCurrencyValues[message.cardNumber] = message.currencyValue;
+        }
+
+        debitCardsTotalCurrencyValue += message.currencyValue;
       }
     }
   }

@@ -1,36 +1,45 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
+import 'package:pay_tracker/types/monthly_analytics.dart';
+import 'package:pay_tracker/types/monthly_spending.dart';
 
 class MessageStoreModel extends ChangeNotifier {
   final List<DateGroupedSms> _dateGroupedSms = [];
-  final String currentMonth =
-      DateFormat(cardDateGroupedFormat).format(DateTime.now()).split('-')[1];
-  String dailySpendCurrencyName = "";
-  final List<double> _dailySpend = [];
+  final Map<String, List<String>> _cardTypesAndNumbers = {};
+  late MonthlyAnalytics _monthlyAnalytics;
+
+  String get currentYear => _monthlyAnalytics.currentYear;
+
+  String get currentMonth => _monthlyAnalytics.currentMonth;
+
+  String get currentDay => _monthlyAnalytics.currentDay;
 
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
-  List<double> get dailySpend => _dailySpend;
-  double get totalMonthlySpend =>
-      _dailySpend.reduce((value, element) => value + element);
+
+  Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
+
+  MonthlySpending getMonthlySpending([String? month]) {
+    month ??= _monthlyAnalytics.currentMonth;
+    MonthlySpending? monthlySpending = _monthlyAnalytics.monthlySpending[month];
+    if (monthlySpending != null) {
+      return monthlySpending;
+    } else {
+      return MonthlySpending.empty();
+    }
+  }
+
+  void _generateMonthlyAnalytics() {
+    _monthlyAnalytics = MonthlyAnalytics(_dateGroupedSms);
+  }
 
   void _addGroupedSms(DateGroupedSms dateGroupedSms) {
-    if (dateGroupedSms.currentMonth == currentMonth) {
-      if (dailySpendCurrencyName.isEmpty) {
-        dailySpendCurrencyName = dateGroupedSms.dailySpendCurrencyName;
-      }
-      _dailySpend.add(dateGroupedSms.dailySpend);
-    }
     _dateGroupedSms.add(dateGroupedSms);
   }
 
   void _clearGroupedSms() {
-    dailySpendCurrencyName = "";
-    _dailySpend.clear();
     _dateGroupedSms.clear();
   }
 
@@ -41,9 +50,24 @@ class MessageStoreModel extends ChangeNotifier {
     for (var inboxMessage in inboxMessages) {
       RegExpMatch? regexMatch = regExp.firstMatch(inboxMessage.body);
       if (regexMatch != null) {
-        displayedSms.add(DisplayedSms(regexMatch, inboxMessage));
+        DisplayedSms displayedSmsObject =
+            DisplayedSms(regexMatch, inboxMessage);
+        displayedSms.add(displayedSmsObject);
+        if (_cardTypesAndNumbers.containsKey(displayedSmsObject.cardType)) {
+          if (!(_cardTypesAndNumbers[displayedSmsObject.cardType]
+                  ?.contains(displayedSmsObject.cardNumber) ??
+              false)) {
+            _cardTypesAndNumbers[displayedSmsObject.cardType]
+                ?.add(displayedSmsObject.cardNumber);
+          }
+        } else {
+          _cardTypesAndNumbers[displayedSmsObject.cardType] = [
+            displayedSmsObject.cardNumber
+          ];
+        }
       }
     }
+
     String? dateStamp = displayedSms.isNotEmpty
         ? displayedSms[0].dateTime.toString().substring(0, 10)
         : null;
@@ -63,6 +87,7 @@ class MessageStoreModel extends ChangeNotifier {
     if (dateStampMessages.isNotEmpty) {
       _addGroupedSms(DateGroupedSms(dateStampMessages));
     }
+    _generateMonthlyAnalytics();
     notifyListeners();
   }
 }
