@@ -31,7 +31,7 @@ ThemeData darkThemeData = ThemeData(
     onSecondary: AppColors.black,
     error: Colors.red,
     onError: Colors.black54,
-    background: Colors.black54,
+    background: Colors.black,
     onBackground: Colors.white70,
     surface: Colors.black54,
     onSurface: Colors.white70,

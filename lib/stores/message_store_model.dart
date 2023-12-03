@@ -15,14 +15,15 @@ class MessageStoreModel extends ChangeNotifier {
 
   String get currentMonth => _monthlyAnalytics.currentMonth;
 
+  set currentMonth(String month) => _monthlyAnalytics.currentMonth = month;
+
   String get currentDay => _monthlyAnalytics.currentDay;
 
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
 
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
 
-  MonthlySpending getMonthlySpending([String? month]) {
-    month ??= _monthlyAnalytics.currentMonth;
+  MonthlySpending getMonthlySpending(String month) {
     MonthlySpending? monthlySpending = _monthlyAnalytics.monthlySpending[month];
     if (monthlySpending != null) {
       return monthlySpending;
