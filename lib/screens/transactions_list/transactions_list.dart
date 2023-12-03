@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/card_settings/card_settings.dart';
@@ -38,10 +39,15 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String themeModeIdentifier = getThemeModeIdentifier(context);
+    String themeModeIdentifier =
+        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor:
+              Theme.of(context).colorScheme.background, // Navigation bar
+        ),
         title: const Text(appTitleTransactionsList),
         actions: [
           IconButton(

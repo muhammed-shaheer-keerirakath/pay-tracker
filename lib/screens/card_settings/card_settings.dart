@@ -50,6 +50,10 @@ class _CardSettingsState extends State<CardSettings> {
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor:
+              Theme.of(context).colorScheme.background, // Navigation bar
+        ),
         title: const Text(appTitleCardSettings),
       ),
       body: Padding(

@@ -13,7 +13,8 @@ class PaymentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String heroTag = UniqueKey().toString();
-    String themeModeIdentifier = getThemeModeIdentifier(context);
+    String themeModeIdentifier =
+        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
     String currencyName = cardMessages[0].currencyName;
     double totalAmountSpent = cardMessages
         .map((e) => e.currencyValue)

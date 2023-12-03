@@ -29,10 +29,8 @@ class MessageList extends StatelessWidget {
         // const SpendingAnalytics(),
         Expanded(
           child: ListView.builder(
-            itemCount: messages.length + 1,
+            itemCount: messages.length,
             itemBuilder: (BuildContext buildContext, int index) {
-              int currentIndex = index - 1;
-              if (currentIndex == -1) return const SpendingAnalytics();
               return Padding(
                 padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
                 child: Card(
@@ -51,26 +49,25 @@ class MessageList extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                messages[currentIndex].date,
+                                messages[index].date,
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                               Text(
-                                '#${index.toString()}',
+                                '#${(index + 1).toString()}',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
                             ]),
-                        messages[currentIndex].creditCards.isNotEmpty
-                            ? CardList(
-                                cards: messages[currentIndex].creditCards)
+                        messages[index].creditCards.isNotEmpty
+                            ? CardList(cards: messages[index].creditCards)
                             : const SizedBox(width: 0, height: 0),
-                        messages[currentIndex].debitCards.isNotEmpty
-                            ? CardList(cards: messages[currentIndex].debitCards)
+                        messages[index].debitCards.isNotEmpty
+                            ? CardList(cards: messages[index].debitCards)
                             : const SizedBox(width: 0, height: 0),
                       ],
                     ),

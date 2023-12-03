@@ -33,8 +33,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top]);
     return MaterialApp(
       debugShowCheckedModeBanner: useDebugBanner,
       title: appName,
