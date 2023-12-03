@@ -3,6 +3,7 @@ import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/spending_analytics/data_row_item.dart';
 import 'package:pay_tracker/stores/local_store_model.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
+import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 import 'package:provider/provider.dart';
 
@@ -25,6 +26,11 @@ class CardSpecificDataRow extends StatelessWidget {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
     LocalStoreModel localStoreModel = Provider.of<LocalStoreModel>(context);
+    String themeModeIdentifier =
+        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
+    String cardImageUri = (cardType == CardType.creditCard)
+        ? creditCardCoverImageUri
+        : debitCardCoverImageUri;
     int currentYear = int.parse(messageStoreModel.currentYear);
     int currentMonth = getMonthNumber(messageStoreModel.currentMonth);
     int currentDay = int.parse(messageStoreModel.currentDay);
@@ -54,7 +60,7 @@ class CardSpecificDataRow extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
-                    '${creditCardCoverImageUri}_light$cardCoverFileType',
+                    '$cardImageUri$themeModeIdentifier$cardCoverFileType',
                     height: 26,
                     width: 42,
                     fit: BoxFit.cover,
