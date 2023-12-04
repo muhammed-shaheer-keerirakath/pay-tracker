@@ -14,6 +14,12 @@ class MessageStoreModel extends ChangeNotifier {
   Exception exception = Exception('');
   bool smsPermissionFailed = false;
   bool exceptionOccurred = false;
+
+  String _year = '';
+  String month = '';
+  String _day = '';
+  String _currencyName = '';
+
   final List<DateGroupedSms> _dateGroupedSms = [];
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
@@ -23,10 +29,9 @@ class MessageStoreModel extends ChangeNotifier {
     fetchMessagesFromInbox();
   }
 
-  String get currentYear => _monthlyAnalytics.currentYear;
-  String get currentMonth => _monthlyAnalytics.currentMonth;
-  set currentMonth(String month) => _monthlyAnalytics.currentMonth = month;
-  String get currentDay => _monthlyAnalytics.currentDay;
+  String get year => _year;
+  String get day => _day;
+  String get currencyName => _currencyName;
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
 
@@ -37,6 +42,13 @@ class MessageStoreModel extends ChangeNotifier {
     } else {
       return MonthlySpending.empty();
     }
+  }
+
+  void _setDateAndCurrencyFromLatestSMS() {
+    _year = _dateGroupedSms[0].year;
+    month = _dateGroupedSms[0].month;
+    _day = _dateGroupedSms[0].day;
+    _currencyName = _dateGroupedSms[0].currencyName;
   }
 
   void _generateMonthlyAnalytics() {
@@ -111,6 +123,7 @@ class MessageStoreModel extends ChangeNotifier {
     if (dateStampMessages.isNotEmpty) {
       _addGroupedSms(DateGroupedSms(dateStampMessages));
     }
+    _setDateAndCurrencyFromLatestSMS();
     _generateMonthlyAnalytics();
   }
 

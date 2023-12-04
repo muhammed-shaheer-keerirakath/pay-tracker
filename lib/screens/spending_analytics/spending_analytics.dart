@@ -20,7 +20,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
     MonthlySpending monthlySpending =
-        messageStoreModel.getMonthlySpending(messageStoreModel.currentMonth);
+        messageStoreModel.getMonthlySpending(messageStoreModel.month);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
@@ -41,7 +41,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                 children: [
                   Text(
                     style: const TextStyle(fontWeight: FontWeight.bold),
-                    '${messageStoreModel.currentMonth} ${messageStoreModel.currentYear} Analytics',
+                    '${messageStoreModel.month} ${messageStoreModel.year} Analytics',
                   ),
                   FilledButton.icon(
                       label: const Text('Change Month'),
@@ -80,13 +80,13 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                                       itemCount: 12,
                                       itemBuilder: (context, index) {
                                         bool isCurrentSelection =
-                                            (messageStoreModel.currentMonth ==
+                                            (messageStoreModel.month ==
                                                 monthsMMMFormat[index]);
 
                                         return InkWell(
                                           onTap: () {
                                             setState(() {
-                                              messageStoreModel.currentMonth =
+                                              messageStoreModel.month =
                                                   monthsMMMFormat[index];
                                             });
                                             Navigator.pop(buildContext);
@@ -105,7 +105,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                   ),
-                                                  '${monthsMMMFormat[index]} ${messageStoreModel.currentYear}',
+                                                  '${monthsMMMFormat[index]} ${messageStoreModel.year}',
                                                 ),
                                                 if (isCurrentSelection)
                                                   const Icon(

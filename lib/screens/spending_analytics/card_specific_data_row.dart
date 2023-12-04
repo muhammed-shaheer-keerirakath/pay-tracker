@@ -29,9 +29,9 @@ class CardSpecificDataRow extends StatelessWidget {
     String cardImageUri = (cardType == CardType.creditCard)
         ? creditCardCoverImageUri
         : debitCardCoverImageUri;
-    int currentYear = int.parse(messageStoreModel.currentYear);
-    int currentMonth = getMonthNumber(messageStoreModel.currentMonth);
-    int currentDay = int.parse(messageStoreModel.currentDay);
+    int currentYear = int.parse(messageStoreModel.year);
+    int currentMonth = getMonthNumber(messageStoreModel.month);
+    int currentDay = int.parse(messageStoreModel.day);
     int numberOfDaysInMonth = getDaysInMonth(currentYear, currentMonth);
 
     int dailyCardLimit = messageStoreModel.getCardLimit(cardType, cardNumber);

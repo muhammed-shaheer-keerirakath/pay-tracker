@@ -3,6 +3,18 @@ import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 
 class DateGroupedSms {
+  /// eg: "Sat"
+  late String dayOfTheWeek;
+
+  /// eg: "26"
+  late String day;
+
+  /// eg: "Aug"
+  late String month;
+
+  /// eg: "2023"
+  late String year;
+
   /// eg: "Sat, 26 Aug 2023"
   late String date;
 
@@ -28,7 +40,13 @@ class DateGroupedSms {
   late Map<String, List<DisplayedSms>> debitCards = {};
 
   DateGroupedSms(List<DisplayedSms> messages) {
-    date = DateFormat('EEE, dd MMM y').format(messages[0].dateTime);
+    List<String> dateFormat =
+        DateFormat('EEE,dd,MMM,y').format(messages[0].dateTime).split(',');
+    dayOfTheWeek = dateFormat[0];
+    day = dateFormat[1];
+    month = dateFormat[2];
+    year = dateFormat[3];
+    date = '$dayOfTheWeek, $day $month $year';
     currencyName = messages[0].currencyName;
     for (var message in messages) {
       if (message.cardType == CardType.creditCard) {
