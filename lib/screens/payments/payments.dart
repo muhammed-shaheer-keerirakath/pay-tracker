@@ -11,7 +11,7 @@ class Payments extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MessageStoreModel messageStoreModel =
-        Provider.of<MessageStoreModel>(context, listen: false);
+        Provider.of<MessageStoreModel>(context);
 
     if (messageStoreModel.smsPermissionFailed) {
       return const NoSmsAccess();

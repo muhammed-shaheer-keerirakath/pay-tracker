@@ -6,7 +6,6 @@ import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
-import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({

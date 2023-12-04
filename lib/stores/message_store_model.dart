@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:pay_tracker/constants/identifier_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
@@ -7,6 +8,7 @@ import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MessageStoreModel extends ChangeNotifier {
   Exception exception = Exception('');
@@ -15,21 +17,17 @@ class MessageStoreModel extends ChangeNotifier {
   final List<DateGroupedSms> _dateGroupedSms = [];
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
+  final Map<String, int> _dailyCardLimits = {};
 
   MessageStoreModel() {
     fetchMessagesFromInbox();
   }
 
   String get currentYear => _monthlyAnalytics.currentYear;
-
   String get currentMonth => _monthlyAnalytics.currentMonth;
-
   set currentMonth(String month) => _monthlyAnalytics.currentMonth = month;
-
   String get currentDay => _monthlyAnalytics.currentDay;
-
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
-
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
 
   MonthlySpending getMonthlySpending(String month) {
@@ -64,12 +62,13 @@ class MessageStoreModel extends ChangeNotifier {
       exception = e;
     }
     if (smsPermissionFailed || exceptionOccurred) return;
-    addInboxMessagesToStore(inboxMessages);
-    // await localStoreModel.loadCardLimits(messageStoreModel.cardTypesAndNumbers);
+    await addInboxMessagesToStore(inboxMessages);
+    await loadCardLimits();
     notifyListeners();
   }
 
-  void addInboxMessagesToStore(List<InboxSmsMessage> inboxMessages) async {
+  Future<void> addInboxMessagesToStore(
+      List<InboxSmsMessage> inboxMessages) async {
     _clearGroupedSms();
     List<DisplayedSms> displayedSms = [];
     for (var inboxMessage in inboxMessages) {
@@ -113,5 +112,36 @@ class MessageStoreModel extends ChangeNotifier {
       _addGroupedSms(DateGroupedSms(dateStampMessages));
     }
     _generateMonthlyAnalytics();
+  }
+
+  String _generateCardSignature(String cardType, String cardNumber) {
+    return '$cardLimitKey$cardType$cardNumber';
+  }
+
+  Future<void> loadCardLimits() async {
+    final preferences = await SharedPreferences.getInstance();
+    cardTypesAndNumbers.forEach(
+      (cardType, cardNumbers) {
+        for (var cardNumber in cardNumbers) {
+          String cardSignature = _generateCardSignature(cardType, cardNumber);
+          _dailyCardLimits[cardSignature] =
+              preferences.getInt(cardSignature) ?? 0;
+        }
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> saveCardLimit(
+      String cardType, String cardNumber, int limit) async {
+    final preferences = await SharedPreferences.getInstance();
+    String cardSignature = _generateCardSignature(cardType, cardNumber);
+    preferences.setInt(cardSignature, limit);
+    await loadCardLimits();
+  }
+
+  int getCardLimit(String cardType, String cardNumber) {
+    String cardSignature = _generateCardSignature(cardType, cardNumber);
+    return _dailyCardLimits[cardSignature] ?? 0;
   }
 }

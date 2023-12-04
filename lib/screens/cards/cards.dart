@@ -5,6 +5,6 @@ class Cards extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text('Cards');
+    return const Text('Cards');
   }
 }

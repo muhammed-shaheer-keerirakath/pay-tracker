@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
-import 'package:pay_tracker/stores/local_store_model.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:provider/provider.dart';
 
 class CardSettings extends StatefulWidget {
@@ -28,13 +28,13 @@ class _CardSettingsState extends State<CardSettings> {
 
   @override
   void initState() {
-    final LocalStoreModel localStoreModel =
-        Provider.of<LocalStoreModel>(context, listen: false);
-    super.initState();
+    final MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context, listen: false);
     _cardLimitController = TextEditingController(
-        text: localStoreModel
+        text: messageStoreModel
             .getCardLimit(widget.cardType, widget.cardNumber)
             .toString());
+    super.initState();
   }
 
   @override
@@ -45,8 +45,8 @@ class _CardSettingsState extends State<CardSettings> {
 
   @override
   Widget build(BuildContext context) {
-    final LocalStoreModel localStoreModel =
-        Provider.of<LocalStoreModel>(context);
+    final MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -102,7 +102,7 @@ class _CardSettingsState extends State<CardSettings> {
                       40), // fromHeight use double.infinity as width and 40 is the height
                 ),
                 onPressed: () async {
-                  await localStoreModel.saveCardLimit(
+                  await messageStoreModel.saveCardLimit(
                       widget.cardType,
                       widget.cardNumber,
                       int.parse(_cardLimitController.text.isNotEmpty

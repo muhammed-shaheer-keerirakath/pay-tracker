@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/spending_analytics/data_row_item.dart';
-import 'package:pay_tracker/stores/local_store_model.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
@@ -25,7 +24,6 @@ class CardSpecificDataRow extends StatelessWidget {
   Widget build(BuildContext context) {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
-    LocalStoreModel localStoreModel = Provider.of<LocalStoreModel>(context);
     String themeModeIdentifier =
         (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
     String cardImageUri = (cardType == CardType.creditCard)
@@ -36,7 +34,7 @@ class CardSpecificDataRow extends StatelessWidget {
     int currentDay = int.parse(messageStoreModel.currentDay);
     int numberOfDaysInMonth = getDaysInMonth(currentYear, currentMonth);
 
-    int dailyCardLimit = localStoreModel.getCardLimit(cardType, cardNumber);
+    int dailyCardLimit = messageStoreModel.getCardLimit(cardType, cardNumber);
     int monthlyCardLimit = dailyCardLimit * numberOfDaysInMonth;
     double overSpent = cardPaymentCurrencyValue - monthlyCardLimit;
 

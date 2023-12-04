@@ -4,7 +4,6 @@ import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list.dart';
 import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
-import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 
 class PaymentCard extends StatelessWidget {
   const PaymentCard({super.key, required this.cardMessages});
