@@ -14,7 +14,7 @@ class MessageStoreModel extends ChangeNotifier {
   bool exceptionOccurred = false;
   final List<DateGroupedSms> _dateGroupedSms = [];
   final Map<String, List<String>> _cardTypesAndNumbers = {};
-  late MonthlyAnalytics _monthlyAnalytics;
+  late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
 
   MessageStoreModel() {
     fetchMessagesFromInbox();

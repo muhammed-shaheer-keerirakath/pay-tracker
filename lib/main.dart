@@ -15,10 +15,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<LocalStoreModel>(
           create: (_) => LocalStoreModel(),
         ),
-        ChangeNotifierProvider(
+        ChangeNotifierProvider<MessageStoreModel>(
           create: (_) => MessageStoreModel(),
         ),
       ],
