@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/development_constants.dart';
 import 'package:pay_tracker/screens/home_page/home_page.dart';
@@ -16,10 +15,10 @@ void main() {
   runApp(
     MultiProvider(
       providers: [
-        ChangeNotifierProvider<LocalStoreModel>(
+        ChangeNotifierProvider(
           create: (_) => LocalStoreModel(),
         ),
-        ChangeNotifierProvider<MessageStoreModel>(
+        ChangeNotifierProvider(
           create: (_) => MessageStoreModel(),
         ),
       ],

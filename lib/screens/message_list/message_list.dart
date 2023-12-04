@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/screens/message_list/card_list.dart';
 import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
-import 'package:pay_tracker/screens/spending_analytics/spending_analytics.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:provider/provider.dart';
@@ -16,10 +15,7 @@ class MessageList extends StatelessWidget {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
 
-    List<DateGroupedSms> messages =
-        messageStoreModel.groupedMessages.length >= 10
-            ? messageStoreModel.groupedMessages.sublist(0, 10)
-            : messageStoreModel.groupedMessages;
+    List<DateGroupedSms> messages = messageStoreModel.groupedMessages;
 
     if (messages.isEmpty) {
       return const EmptyMessageList();

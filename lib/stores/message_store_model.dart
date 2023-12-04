@@ -1,15 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
+import 'package:pay_tracker/utilities/readers/message_reader.dart';
 
 class MessageStoreModel extends ChangeNotifier {
+  Exception exception = Exception('');
+  bool smsPermissionFailed = false;
+  bool exceptionOccurred = false;
   final List<DateGroupedSms> _dateGroupedSms = [];
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics;
+
+  MessageStoreModel() {
+    fetchMessagesFromInbox();
+  }
 
   String get currentYear => _monthlyAnalytics.currentYear;
 
@@ -44,8 +53,23 @@ class MessageStoreModel extends ChangeNotifier {
     _dateGroupedSms.clear();
   }
 
-  Future<void> addInboxMessagesToStore(
-      List<InboxSmsMessage> inboxMessages) async {
+  Future<void> fetchMessagesFromInbox() async {
+    List<InboxSmsMessage> inboxMessages = [];
+    try {
+      inboxMessages = await getInboxMessages();
+    } on PlatformException {
+      smsPermissionFailed = true;
+    } on Exception catch (e) {
+      exceptionOccurred = true;
+      exception = e;
+    }
+    if (smsPermissionFailed || exceptionOccurred) return;
+    addInboxMessagesToStore(inboxMessages);
+    // await localStoreModel.loadCardLimits(messageStoreModel.cardTypesAndNumbers);
+    notifyListeners();
+  }
+
+  void addInboxMessagesToStore(List<InboxSmsMessage> inboxMessages) async {
     _clearGroupedSms();
     List<DisplayedSms> displayedSms = [];
     for (var inboxMessage in inboxMessages) {
@@ -89,6 +113,5 @@ class MessageStoreModel extends ChangeNotifier {
       _addGroupedSms(DateGroupedSms(dateStampMessages));
     }
     _generateMonthlyAnalytics();
-    notifyListeners();
   }
 }
