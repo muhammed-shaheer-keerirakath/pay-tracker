@@ -5,13 +5,14 @@ import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
     required this.availableAmount,
     required this.balanceType,
-    required this.cardImageUri,
     required this.cardMessages,
     required this.cardNumber,
     required this.cardSpent,
@@ -28,7 +29,6 @@ class TransactionsList extends StatelessWidget {
   final List<DisplayedSms> cardMessages;
   final String availableAmount;
   final String balanceType;
-  final String cardImageUri;
   final String cardNumber;
   final String cardSpent;
   final String cardType;
@@ -38,8 +38,16 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context);
+
     String themeModeIdentifier =
-        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
+        (Theme.of(context).brightness == Brightness.dark)
+            ? ThemeModeIdentifier.dark
+            : ThemeModeIdentifier.light;
+
+    String cardCoverImage = messageStoreModel.getCardCoverImage(
+        cardType, cardNumber, themeModeIdentifier);
 
     return Scaffold(
       appBar: AppBar(
@@ -86,9 +94,7 @@ class TransactionsList extends StatelessWidget {
                   height: 180,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        '$cardImageUri$themeModeIdentifier$cardCoverFileType',
-                      ),
+                      image: AssetImage(cardCoverImage),
                       fit: BoxFit.cover,
                     ),
                   ),

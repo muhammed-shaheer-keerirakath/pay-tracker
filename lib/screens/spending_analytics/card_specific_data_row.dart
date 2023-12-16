@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/spending_analytics/data_row_item.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
-import 'package:pay_tracker/types/card_type.dart';
 import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
 import 'package:provider/provider.dart';
 
@@ -25,10 +24,9 @@ class CardSpecificDataRow extends StatelessWidget {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
     String themeModeIdentifier =
-        (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
-    String cardImageUri = (cardType == CardType.creditCard)
-        ? creditCardCoverImageUri
-        : debitCardCoverImageUri;
+        (Theme.of(context).brightness == Brightness.dark)
+            ? ThemeModeIdentifier.dark
+            : ThemeModeIdentifier.light;
     int currentYear = int.parse(messageStoreModel.year);
     int currentMonth = getMonthNumber(messageStoreModel.month);
     int currentDay = int.parse(messageStoreModel.day);
@@ -37,6 +35,9 @@ class CardSpecificDataRow extends StatelessWidget {
     int dailyCardLimit = messageStoreModel.getCardLimit(cardType, cardNumber);
     int monthlyCardLimit = dailyCardLimit * numberOfDaysInMonth;
     double overSpent = cardPaymentCurrencyValue - monthlyCardLimit;
+
+    String cardCoverImage = messageStoreModel.getCardCoverImage(
+        cardType, cardNumber, themeModeIdentifier);
 
     return Card(
       elevation: 0,
@@ -58,7 +59,7 @@ class CardSpecificDataRow extends StatelessWidget {
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(4),
                   child: Image.asset(
-                    '$cardImageUri$themeModeIdentifier$cardCoverFileType',
+                    cardCoverImage,
                     height: 26,
                     width: 42,
                     fit: BoxFit.cover,

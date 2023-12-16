@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/identifier_constants.dart';
+import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
@@ -24,6 +25,7 @@ class MessageStoreModel extends ChangeNotifier {
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
   final Map<String, int> _dailyCardLimits = {};
+  final Map<String, String> _cardCoverImages = {};
 
   MessageStoreModel() {
     fetchMessagesFromInbox();
@@ -76,6 +78,7 @@ class MessageStoreModel extends ChangeNotifier {
     if (smsPermissionFailed || exceptionOccurred) return;
     await addInboxMessagesToStore(inboxMessages);
     await loadCardLimits();
+    await loadCardCoverImages();
     notifyListeners();
   }
 
@@ -138,7 +141,7 @@ class MessageStoreModel extends ChangeNotifier {
         for (var cardNumber in cardNumbers) {
           String cardSignature = _generateCardSignature(cardType, cardNumber);
           _dailyCardLimits[cardSignature] =
-              preferences.getInt(cardSignature) ?? 0;
+              preferences.getInt('cardLimit$cardSignature') ?? 0;
         }
       },
     );
@@ -149,12 +152,41 @@ class MessageStoreModel extends ChangeNotifier {
       String cardType, String cardNumber, int limit) async {
     final preferences = await SharedPreferences.getInstance();
     String cardSignature = _generateCardSignature(cardType, cardNumber);
-    preferences.setInt(cardSignature, limit);
+    preferences.setInt('cardLimit$cardSignature', limit);
     await loadCardLimits();
   }
 
   int getCardLimit(String cardType, String cardNumber) {
     String cardSignature = _generateCardSignature(cardType, cardNumber);
     return _dailyCardLimits[cardSignature] ?? 0;
+  }
+
+  Future<void> loadCardCoverImages() async {
+    final preferences = await SharedPreferences.getInstance();
+    cardTypesAndNumbers.forEach(
+      (cardType, cardNumbers) {
+        for (var cardNumber in cardNumbers) {
+          String cardSignature = _generateCardSignature(cardType, cardNumber);
+          _cardCoverImages[cardSignature] =
+              preferences.getString('cardCoverImage$cardSignature') ?? '';
+        }
+      },
+    );
+    notifyListeners();
+  }
+
+  Future<void> saveCardCoverImage(String cardType, String cardNumber,
+      String cardCoverImageIdentifier) async {
+    final preferences = await SharedPreferences.getInstance();
+    String cardSignature = _generateCardSignature(cardType, cardNumber);
+    preferences.setString(
+        'cardCoverImage$cardSignature', cardCoverImageIdentifier);
+    await loadCardCoverImages();
+  }
+
+  String getCardCoverImage(
+      String cardType, String cardNumber, String themeModeIdentifier) {
+    String cardSignature = _generateCardSignature(cardType, cardNumber);
+    return '$cardCoverPath${_cardCoverImages[cardSignature] ?? ''}$themeModeIdentifier$cardCoverFileType';
   }
 }

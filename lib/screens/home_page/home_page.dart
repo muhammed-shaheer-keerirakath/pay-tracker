@@ -13,7 +13,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedTabIndex = 0;
+  int _selectedTabIndex = 1;
 
   void _changeTabSelection(int indexKey) {
     setState(() {
