@@ -8,11 +8,9 @@ class CardSettings extends StatefulWidget {
   const CardSettings({
     super.key,
     required this.cardType,
-    required this.currencyName,
     required this.cardNumber,
   });
   final String cardType;
-  final String currencyName;
   final String cardNumber;
 
   @override
@@ -47,6 +45,7 @@ class _CardSettingsState extends State<CardSettings> {
   Widget build(BuildContext context) {
     final MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
+    String currencyName = messageStoreModel.currencyName;
 
     return Scaffold(
       appBar: AppBar(
@@ -92,7 +91,7 @@ class _CardSettingsState extends State<CardSettings> {
                 ),
                 Expanded(
                   flex: 1,
-                  child: Text(widget.currencyName),
+                  child: Text(currencyName),
                 )
               ],
             ),

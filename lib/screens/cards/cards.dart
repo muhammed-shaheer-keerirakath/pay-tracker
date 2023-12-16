@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
-import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
+import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:provider/provider.dart';
 
@@ -42,11 +41,14 @@ class Cards extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    Text(
-                      '${cardTypesKeys[parentListViewIndex]}s',
-                      style: TextStyle(
-                        fontSize: 16,
-                        color: Theme.of(context).colorScheme.primary,
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 12),
+                      child: Text(
+                        '${cardTypesKeys[parentListViewIndex]}s',
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Theme.of(context).colorScheme.primary,
+                        ),
                       ),
                     ),
                     ListView.builder(
@@ -60,38 +62,65 @@ class Cards extends StatelessWidget {
                               messageStoreModel.getCardCoverImage(
                                   cardType, cardNumber, themeModeIdentifier);
 
-                          return Card(
-                            clipBehavior: Clip.hardEdge,
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                color: Theme.of(context).colorScheme.outline,
-                              ),
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(12)),
-                            ),
-                            child: Container(
-                                height: 180,
-                                decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                    image: AssetImage(cardCoverImage),
-                                    fit: BoxFit.cover,
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [
+                              Card(
+                                elevation: 8,
+                                clipBehavior: Clip.hardEdge,
+                                shape: RoundedRectangleBorder(
+                                  side: BorderSide(
+                                    color:
+                                        Theme.of(context).colorScheme.outline,
                                   ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(12)),
                                 ),
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Text(
-                                      cardType,
-                                      style: const TextStyle(fontSize: 18),
-                                    ),
-                                    Text(
-                                      'XXXX $cardNumber',
-                                      style: const TextStyle(
-                                          fontSize: 24,
-                                          fontWeight: FontWeight.bold),
-                                    )
-                                  ],
-                                )),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => CardSettings(
+                                          cardType: cardType,
+                                          cardNumber: cardNumber,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          image: AssetImage(cardCoverImage),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      child: Opacity(
+                                        opacity: 0.5,
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Text(
+                                              cardType,
+                                              style:
+                                                  const TextStyle(fontSize: 16),
+                                            ),
+                                            Text(
+                                              'XXXX $cardNumber',
+                                              style: const TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                            )
+                                          ],
+                                        ),
+                                      )),
+                                ),
+                              ),
+                              if (childListViewIndex < cardNumbers.length - 1)
+                                const SizedBox(height: 6),
+                            ],
                           );
                         }),
                   ],

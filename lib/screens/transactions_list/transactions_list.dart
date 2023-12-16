@@ -67,7 +67,6 @@ class TransactionsList extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => CardSettings(
                     cardType: cardType,
-                    currencyName: currencyName,
                     cardNumber: cardNumber,
                   ),
                 ),
