@@ -185,8 +185,12 @@ class MessageStoreModel extends ChangeNotifier {
   }
 
   String getCardCoverImage(
-      String cardType, String cardNumber, String themeModeIdentifier) {
+      String cardType, String cardNumber, String? themeModeIdentifier,
+      {bool onlyCardCoverImageIdentifier = false}) {
     String cardSignature = _generateCardSignature(cardType, cardNumber);
-    return '$cardCoverPath${_cardCoverImages[cardSignature] ?? ''}$themeModeIdentifier$cardCoverFileType';
+    String cardCoverImageIdentifier = _cardCoverImages[cardSignature] ?? '';
+    return onlyCardCoverImageIdentifier
+        ? cardCoverImageIdentifier
+        : '$cardCoverPath$cardCoverImageIdentifier$themeModeIdentifier$cardCoverFileType';
   }
 }

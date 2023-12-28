@@ -6,9 +6,11 @@ class ThemeModeIdentifier {
   static const dark = 'dark';
 }
 
-class CardCoverImageIdentifier {
-  static const cover1 = 'cover_1_';
-  static const cover2 = 'cover_2_';
-  static const cover3 = 'cover_3_';
-  static const cover4 = 'cover_4_';
-}
+List<String> cardCoverImageIdentifier = [
+  '',
+  'cover_1_',
+  'cover_2_',
+  'cover_3_',
+  'cover_4_',
+  'cover_5_',
+];
