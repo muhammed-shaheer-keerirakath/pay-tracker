@@ -97,7 +97,7 @@ class Cards extends StatelessWidget {
                                         ),
                                       ),
                                       child: Opacity(
-                                        opacity: 0.5,
+                                        opacity: 0.8,
                                         child: Column(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
