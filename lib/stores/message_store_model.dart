@@ -8,6 +8,7 @@ import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
+import 'package:pay_tracker/types/year_grouped_sms.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -22,6 +23,7 @@ class MessageStoreModel extends ChangeNotifier {
   String _currencyName = '';
 
   final List<DateGroupedSms> _dateGroupedSms = [];
+  late YearGroupedSms _yearGroupedSms = YearGroupedSms([]);
   final Map<String, List<String>> _cardTypesAndNumbers = {};
   late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
   final Map<String, int> _dailyCardLimits = {};
@@ -36,6 +38,8 @@ class MessageStoreModel extends ChangeNotifier {
   String get currencyName => _currencyName;
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
+  List<String> get yearsList => _yearGroupedSms.yearsList;
+  List<String> get monthsList => _yearGroupedSms.monthsList;
 
   MonthlySpending getMonthlySpending(String month) {
     MonthlySpending? monthlySpending = _monthlyAnalytics.monthlySpending[month];
@@ -51,6 +55,10 @@ class MessageStoreModel extends ChangeNotifier {
     month = _dateGroupedSms[0].month;
     _day = _dateGroupedSms[0].day;
     _currencyName = _dateGroupedSms[0].currencyName;
+  }
+
+  void _generateYearGroupedSms() {
+    _yearGroupedSms = YearGroupedSms(_dateGroupedSms);
   }
 
   void _generateMonthlyAnalytics() {
@@ -119,6 +127,7 @@ class MessageStoreModel extends ChangeNotifier {
       _dateGroupedSms.add(DateGroupedSms(dateStampMessages));
     }
     _setDateAndCurrencyFromLatestSMS();
+    _generateYearGroupedSms();
     _generateMonthlyAnalytics();
   }
 
