@@ -57,14 +57,6 @@ class MessageStoreModel extends ChangeNotifier {
     _monthlyAnalytics = MonthlyAnalytics(_dateGroupedSms);
   }
 
-  void _addGroupedSms(DateGroupedSms dateGroupedSms) {
-    _dateGroupedSms.add(dateGroupedSms);
-  }
-
-  void _clearGroupedSms() {
-    _dateGroupedSms.clear();
-  }
-
   Future<void> fetchMessagesFromInbox() async {
     List<InboxSmsMessage> inboxMessages = [];
     try {
@@ -84,7 +76,7 @@ class MessageStoreModel extends ChangeNotifier {
 
   Future<void> addInboxMessagesToStore(
       List<InboxSmsMessage> inboxMessages) async {
-    _clearGroupedSms();
+    _dateGroupedSms.clear();
     List<DisplayedSms> displayedSms = [];
     for (var inboxMessage in inboxMessages) {
       RegExpMatch? regexMatch = regExp.firstMatch(inboxMessage.body);
@@ -118,13 +110,13 @@ class MessageStoreModel extends ChangeNotifier {
       if (dateStamp == currentDateStamp) {
         dateStampMessages.add(sms);
       } else {
-        _addGroupedSms(DateGroupedSms(dateStampMessages));
+        _dateGroupedSms.add(DateGroupedSms(dateStampMessages));
         dateStamp = currentDateStamp;
         dateStampMessages = [sms];
       }
     }
     if (dateStampMessages.isNotEmpty) {
-      _addGroupedSms(DateGroupedSms(dateStampMessages));
+      _dateGroupedSms.add(DateGroupedSms(dateStampMessages));
     }
     _setDateAndCurrencyFromLatestSMS();
     _generateMonthlyAnalytics();
