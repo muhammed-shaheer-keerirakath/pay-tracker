@@ -10,14 +10,12 @@ class CardSpecificDataRow extends StatelessWidget {
     required this.cardNumber,
     required this.cardPaymentCurrencyValue,
     required this.cardType,
-    required this.currencyName,
     super.key,
   });
 
   final double cardPaymentCurrencyValue;
   final String cardNumber;
   final String cardType;
-  final String currencyName;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +30,7 @@ class CardSpecificDataRow extends StatelessWidget {
     int currentDay = int.parse(messageStoreModel.day);
     int numberOfDaysInMonth = getDaysInMonth(currentYear, currentMonth);
 
+    String currencyName = messageStoreModel.currencyName;
     int dailyCardLimit = messageStoreModel.getCardLimit(cardType, cardNumber);
     int monthlyCardLimit = dailyCardLimit * numberOfDaysInMonth;
     double overSpent = cardPaymentCurrencyValue - monthlyCardLimit;

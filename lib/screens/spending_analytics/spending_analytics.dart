@@ -135,17 +135,14 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                 children: [
                   SpendOnItem(
                       currencyValue: monthlySpending.creditCardsTotalSpending,
-                      currencyName: monthlySpending.currencyName,
                       icon: Icons.credit_card,
                       title: 'On Credit'),
                   SpendOnItem(
                       currencyValue: monthlySpending.debitCardsTotalSpending,
-                      currencyName: monthlySpending.currencyName,
                       icon: Icons.credit_card,
                       title: 'On Debit'),
                   SpendOnItem(
                       currencyValue: monthlySpending.totalSpending,
-                      currencyName: monthlySpending.currencyName,
                       icon: Icons.money,
                       title: 'Total'),
                 ],
@@ -154,13 +151,11 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                 cardType: CardType.creditCard,
                 cardsMonthlyCurrencyValues:
                     monthlySpending.creditCardsMonthlyCurrencyValues,
-                currencyName: monthlySpending.currencyName,
               ),
               CardSpecificData(
                 cardType: CardType.debitCard,
                 cardsMonthlyCurrencyValues:
                     monthlySpending.debitCardsMonthlyCurrencyValues,
-                currencyName: monthlySpending.currencyName,
               ),
             ],
           ),

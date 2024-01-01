@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
+import 'package:provider/provider.dart';
 
 class SpendOnItem extends StatelessWidget {
   const SpendOnItem({
-    required this.currencyName,
     required this.currencyValue,
     required this.icon,
     required this.title,
@@ -10,11 +11,13 @@ class SpendOnItem extends StatelessWidget {
   });
   final double currencyValue;
   final IconData icon;
-  final String currencyName;
   final String title;
 
   @override
   Widget build(BuildContext context) {
+    MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context);
+
     return Row(children: [
       Icon(
         icon,
@@ -28,7 +31,7 @@ class SpendOnItem extends StatelessWidget {
           title,
         ),
         Text(
-          '$currencyName ${currencyValue.toStringAsFixed(2)}',
+          '${messageStoreModel.currencyName} ${currencyValue.toStringAsFixed(2)}',
           style: const TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.bold,
