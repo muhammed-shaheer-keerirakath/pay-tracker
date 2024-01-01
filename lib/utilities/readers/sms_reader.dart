@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:telephony/telephony.dart';
@@ -16,8 +18,12 @@ Future<List<InboxSmsMessage>> getSmsMessages() async {
 
   List<InboxSmsMessage> messages = [];
   for (var telephonyMessage in telephonyMessages) {
-    messages.add(InboxSmsMessage(telephonyMessage.date ?? 0,
-        telephonyMessage.address ?? '', telephonyMessage.body ?? ''));
+    DateTime dateTime =
+        DateTime.fromMillisecondsSinceEpoch(telephonyMessage.date ?? 0);
+    List<String> formattedDate =
+        DateFormat(cardDateGroupedFormat).format(dateTime).split('-');
+    messages.add(InboxSmsMessage(formattedDate, telephonyMessage.address ?? '',
+        telephonyMessage.body ?? ''));
   }
   return messages;
 }

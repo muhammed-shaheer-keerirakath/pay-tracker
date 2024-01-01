@@ -108,13 +108,13 @@ class MessageStoreModel extends ChangeNotifier {
     }
 
     String? dateStamp = displayedSms.isNotEmpty
-        ? displayedSms[0].dateTime.toString().substring(0, 10)
+        ? '${displayedSms[0].day}-${displayedSms[0].month}-${displayedSms[0].year}'
         : null;
     List<DisplayedSms> dateStampMessages =
         displayedSms.isNotEmpty ? [displayedSms[0]] : [];
     for (var i = 1; i < displayedSms.length; i++) {
       DisplayedSms sms = displayedSms[i];
-      String currentDateStamp = sms.dateTime.toString().substring(0, 10);
+      String currentDateStamp = '${sms.day}-${sms.month}-${sms.year}';
       if (dateStamp == currentDateStamp) {
         dateStampMessages.add(sms);
       } else {

@@ -1,12 +1,14 @@
+import 'package:pay_tracker/constants/sms_reader_constants.dart';
+
 class InboxSmsMessage {
-  late int date;
+  late List<String> date;
   late String address;
   late String body;
 
   InboxSmsMessage(this.date, this.address, this.body);
 
-  factory InboxSmsMessage.fromJson(dynamic json) {
-    return InboxSmsMessage(
-        json['date'] as int, json['address'] as String, json['body'] as String);
+  factory InboxSmsMessage.fromMockJson(dynamic json) {
+    String date = json['date'] as String;
+    return InboxSmsMessage(date.split('-'), smsAddress, json['body'] as String);
   }
 }

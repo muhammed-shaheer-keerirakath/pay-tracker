@@ -1,5 +1,3 @@
-import 'package:intl/intl.dart';
-import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 
 class DisplayedSms {
@@ -27,9 +25,6 @@ class DisplayedSms {
   /// eg: "Avl. Balance" | "Cr. Limit"
   late String balanceType;
 
-  /// eg: DateTime (2023-06-04 02:59:59.345)
-  late DateTime dateTime;
-
   /// eg: "04"
   late String day;
 
@@ -51,27 +46,23 @@ class DisplayedSms {
   /// eg: "AM" | "PM"
   late String amPm;
 
-  DisplayedSms(RegExpMatch? smsBodyRegex, InboxSmsMessage sms) {
-    if (smsBodyRegex != null) {
-      purchasedAmount = smsBodyRegex.namedGroup('purchasedAmount') ?? '';
-      currencyName = purchasedAmount.split(' ')[0];
-      currencyValue = double.parse(
-          purchasedAmount.split(' ')[1].replaceAll(RegExp('[^0-9.]'), ''));
-      purchasedAt = smsBodyRegex.namedGroup('purchasedAt') ?? '';
-      cardType = smsBodyRegex.namedGroup('cardType') ?? '';
-      cardNumber = smsBodyRegex.namedGroup('cardNumber') ?? '';
-      availableAmount = smsBodyRegex.namedGroup('availableAmount') ?? '';
-      balanceType = smsBodyRegex.namedGroup('availableAmountType') ?? '';
-      dateTime = DateTime.fromMillisecondsSinceEpoch(sms.date);
-      List<String> dateFormat =
-          DateFormat(cardDateGroupedFormat).format(dateTime).split('-');
-      day = dateFormat[0];
-      month = dateFormat[1];
-      year = dateFormat[2];
-      weekday = dateFormat[3];
-      hour = dateFormat[4];
-      minute = dateFormat[5];
-      amPm = dateFormat[6];
-    }
+  DisplayedSms(RegExpMatch smsBodyRegex, InboxSmsMessage sms) {
+    purchasedAmount = smsBodyRegex.namedGroup('purchasedAmount') ?? '';
+    currencyName = purchasedAmount.split(' ')[0];
+    currencyValue = double.parse(
+        purchasedAmount.split(' ')[1].replaceAll(RegExp('[^0-9.]'), ''));
+    purchasedAt = smsBodyRegex.namedGroup('purchasedAt') ?? '';
+    cardType = smsBodyRegex.namedGroup('cardType') ?? '';
+    cardNumber = smsBodyRegex.namedGroup('cardNumber') ?? '';
+    availableAmount = smsBodyRegex.namedGroup('availableAmount') ?? '';
+    balanceType = smsBodyRegex.namedGroup('availableAmountType') ?? '';
+    List<String> formattedDate = sms.date;
+    day = formattedDate[0];
+    month = formattedDate[1];
+    year = formattedDate[2];
+    weekday = formattedDate[3];
+    hour = formattedDate[4];
+    minute = formattedDate[5];
+    amPm = formattedDate[6];
   }
 }

@@ -10,7 +10,7 @@ Future<List<InboxSmsMessage>> getJsonMessages() async {
   List<dynamic> decodedMessagesList = await json.decode(jsonFileContents);
   List<InboxSmsMessage> messages = [];
   for (var decodedMessage in decodedMessagesList) {
-    messages.add(InboxSmsMessage.fromJson(decodedMessage));
+    messages.add(InboxSmsMessage.fromMockJson(decodedMessage));
   }
   return messages;
 }
