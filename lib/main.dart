@@ -8,9 +8,7 @@ import 'package:pay_tracker/themes/app_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  if (useDebugBorders) {
-    debugPaintSizeEnabled = true;
-  }
+  debugPaintSizeEnabled = useDebugBorders;
   runApp(
     ChangeNotifierProvider(
       create: (context) => MessageStoreModel(),
