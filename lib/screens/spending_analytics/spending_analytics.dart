@@ -19,8 +19,8 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
   Widget build(BuildContext context) {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
-    MonthlySpending monthlySpending =
-        messageStoreModel.getMonthlySpending(messageStoreModel.month);
+    MonthlySpending monthlySpending = messageStoreModel.getMonthlySpending(
+        messageStoreModel.month, messageStoreModel.year);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
@@ -77,7 +77,8 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                                   ),
                                   Expanded(
                                     child: ListView.builder(
-                                      itemCount: 12,
+                                      itemCount:
+                                          messageStoreModel.monthsList.length,
                                       itemBuilder: (context, index) {
                                         bool isCurrentSelection =
                                             (messageStoreModel.month ==
@@ -105,7 +106,8 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                                                   style: const TextStyle(
                                                     fontSize: 16,
                                                   ),
-                                                  '${monthsMMMFormat[index]} ${messageStoreModel.year}',
+                                                  messageStoreModel
+                                                      .monthsList[index],
                                                 ),
                                                 if (isCurrentSelection)
                                                   const Icon(

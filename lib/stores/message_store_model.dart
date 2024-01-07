@@ -41,8 +41,9 @@ class MessageStoreModel extends ChangeNotifier {
   List<String> get yearsList => _yearGroupedSms.yearsList;
   List<String> get monthsList => _yearGroupedSms.monthsList;
 
-  MonthlySpending getMonthlySpending(String month) {
-    MonthlySpending? monthlySpending = _monthlyAnalytics.monthlySpending[month];
+  MonthlySpending getMonthlySpending(String month, String year) {
+    MonthlySpending? monthlySpending =
+        _monthlyAnalytics.monthlySpending['$month $year'];
     if (monthlySpending != null) {
       return monthlySpending;
     } else {

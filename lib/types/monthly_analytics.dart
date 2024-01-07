@@ -13,7 +13,7 @@ class MonthlyAnalytics {
   /// eg: "1"
   late String currentDay;
 
-  /// eg: { ... "Sep":{MonthlySpending}, "Oct":{MonthlySpending} ... }
+  /// eg: { ... "Sep 2023":{MonthlySpending}, "Oct 2023":{MonthlySpending} ... }
   late Map<String, MonthlySpending> monthlySpending;
 
   MonthlyAnalytics(List<DateGroupedSms> dateGroupedMessages) {
@@ -37,7 +37,7 @@ class MonthlyAnalytics {
     monthlySpending = Map.fromEntries(
       monthsMMMFormat.map(
         (month) => MapEntry(
-          month,
+          '$month $currentYear',
           MonthlySpending(
             yearlySpending,
             month,
