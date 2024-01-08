@@ -25,7 +25,7 @@ class MessageStoreModel extends ChangeNotifier {
   final List<DateGroupedSms> _dateGroupedSms = [];
   late YearGroupedSms _yearGroupedSms = YearGroupedSms([]);
   final Map<String, List<String>> _cardTypesAndNumbers = {};
-  late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([]);
+  late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([], []);
   final Map<String, int> _dailyCardLimits = {};
   final Map<String, String> _cardCoverImages = {};
 
@@ -35,15 +35,22 @@ class MessageStoreModel extends ChangeNotifier {
 
   String get year => _year;
   String get day => _day;
+  String get selectedMonthAndYear => '$month $year';
+  set selectedMonthAndYear(String monthAndYear) {
+    List<String> monthAndYearSplit = monthAndYear.split(' ');
+    month = monthAndYearSplit[0];
+    _year = monthAndYearSplit[1];
+  }
+
   String get currencyName => _currencyName;
   List<DateGroupedSms> get groupedMessages => _dateGroupedSms;
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
   List<String> get yearsList => _yearGroupedSms.yearsList;
   List<String> get monthsList => _yearGroupedSms.monthsList;
 
-  MonthlySpending getMonthlySpending(String month, String year) {
+  MonthlySpending getMonthlySpending(String monthAndYear) {
     MonthlySpending? monthlySpending =
-        _monthlyAnalytics.monthlySpending['$month $year'];
+        _monthlyAnalytics.monthlySpending[monthAndYear];
     if (monthlySpending != null) {
       return monthlySpending;
     } else {
@@ -63,7 +70,8 @@ class MessageStoreModel extends ChangeNotifier {
   }
 
   void _generateMonthlyAnalytics() {
-    _monthlyAnalytics = MonthlyAnalytics(_dateGroupedSms);
+    _monthlyAnalytics =
+        MonthlyAnalytics(_dateGroupedSms, _yearGroupedSms.monthsList);
   }
 
   Future<void> fetchMessagesFromInbox() async {

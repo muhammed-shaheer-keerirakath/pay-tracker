@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/screens/spending_analytics/card_specific_data.dart';
 import 'package:pay_tracker/screens/spending_analytics/spend_on_item.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
@@ -19,8 +18,8 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
   Widget build(BuildContext context) {
     MessageStoreModel messageStoreModel =
         Provider.of<MessageStoreModel>(context);
-    MonthlySpending monthlySpending = messageStoreModel.getMonthlySpending(
-        messageStoreModel.month, messageStoreModel.year);
+    MonthlySpending monthlySpending = messageStoreModel
+        .getMonthlySpending(messageStoreModel.selectedMonthAndYear);
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
@@ -41,7 +40,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                 children: [
                   Text(
                     style: const TextStyle(fontWeight: FontWeight.bold),
-                    '${messageStoreModel.month} ${messageStoreModel.year} Analytics',
+                    '${messageStoreModel.selectedMonthAndYear} Analytics',
                   ),
                   FilledButton.icon(
                       label: const Text('Change Month'),
@@ -78,45 +77,53 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                                   Expanded(
                                     child: ListView.builder(
                                       itemCount:
-                                          messageStoreModel.monthsList.length,
+                                          messageStoreModel.yearsList.length,
                                       itemBuilder: (context, index) {
-                                        bool isCurrentSelection =
-                                            (messageStoreModel.month ==
-                                                monthsMMMFormat[index]);
-
-                                        return InkWell(
-                                          onTap: () {
-                                            setState(() {
-                                              messageStoreModel.month =
-                                                  monthsMMMFormat[index];
-                                            });
-                                            Navigator.pop(buildContext);
-                                          },
-                                          child: Padding(
-                                            padding: const EdgeInsets.symmetric(
-                                              vertical: 10,
-                                              horizontal: 16,
-                                            ),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment
-                                                      .spaceBetween,
-                                              children: [
-                                                Text(
-                                                  style: const TextStyle(
-                                                    fontSize: 16,
-                                                  ),
-                                                  messageStoreModel
-                                                      .monthsList[index],
+                                        String year =
+                                            messageStoreModel.yearsList[index];
+                                        return ExpansionTile(
+                                            expandedAlignment:
+                                                Alignment.topLeft,
+                                            title: Text(year),
+                                            initiallyExpanded: true,
+                                            children: [
+                                              Padding(
+                                                padding:
+                                                    const EdgeInsets.fromLTRB(
+                                                        16, 0, 16, 16),
+                                                child: Wrap(
+                                                  alignment:
+                                                      WrapAlignment.start,
+                                                  spacing: 6,
+                                                  children: messageStoreModel
+                                                      .monthsList
+                                                      .where((month) =>
+                                                          month.contains(year))
+                                                      .map((monthAndYear) {
+                                                    if (messageStoreModel
+                                                            .selectedMonthAndYear ==
+                                                        monthAndYear) {
+                                                      return FilledButton(
+                                                        child:
+                                                            Text(monthAndYear),
+                                                        onPressed: () {},
+                                                      );
+                                                    }
+                                                    return OutlinedButton(
+                                                      child: Text(monthAndYear),
+                                                      onPressed: () {
+                                                        setState(() {
+                                                          messageStoreModel
+                                                                  .selectedMonthAndYear =
+                                                              monthAndYear;
+                                                        });
+                                                        Navigator.pop(context);
+                                                      },
+                                                    );
+                                                  }).toList(),
                                                 ),
-                                                if (isCurrentSelection)
-                                                  const Icon(
-                                                    Icons.done,
-                                                  )
-                                              ],
-                                            ),
-                                          ),
-                                        );
+                                              )
+                                            ]);
                                       },
                                     ),
                                   ),
