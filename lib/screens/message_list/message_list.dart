@@ -20,60 +20,73 @@ class MessageList extends StatelessWidget {
     if (messages.isEmpty) {
       return const EmptyMessageList();
     }
-    return Column(
-      children: [
-        // const SpendingAnalytics(),
-        Expanded(
-          child: ListView.builder(
-            itemCount: messages.length,
-            itemBuilder: (BuildContext buildContext, int index) {
-              return Padding(
-                padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-                child: Card(
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      color: Theme.of(context).colorScheme.outline,
+    return SingleChildScrollView(
+      child: Column(
+        children: messageStoreModel.monthsList.map((monthAndYear) {
+          List<DateGroupedSms> messagesDuringTheMonth = messages
+              .where(((message) =>
+                  '${message.month} ${message.year}' == monthAndYear))
+              .toList();
+
+          return ExpansionTile(
+            title: Text(monthAndYear),
+            initiallyExpanded:
+                monthAndYear == messageStoreModel.selectedMonthAndYear,
+            children: [
+              ListView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemCount: messagesDuringTheMonth.length,
+                itemBuilder: (BuildContext buildContext, int index) {
+                  return Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
+                    child: Card(
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          color: Theme.of(context).colorScheme.outline,
+                        ),
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(12)),
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.all(12),
+                        child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    messagesDuringTheMonth[index].date,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                    ),
+                                  ),
+                                ]),
+                            messagesDuringTheMonth[index].creditCards.isNotEmpty
+                                ? CardList(
+                                    cards: messagesDuringTheMonth[index]
+                                        .creditCards)
+                                : const SizedBox(width: 0, height: 0),
+                            messagesDuringTheMonth[index].debitCards.isNotEmpty
+                                ? CardList(
+                                    cards: messagesDuringTheMonth[index]
+                                        .debitCards)
+                                : const SizedBox(width: 0, height: 0),
+                          ],
+                        ),
+                      ),
                     ),
-                    borderRadius: const BorderRadius.all(Radius.circular(12)),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(12),
-                    child: Column(
-                      children: [
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                messages[index].date,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                              Text(
-                                '#${(index + 1).toString()}',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Theme.of(context).colorScheme.primary,
-                                ),
-                              ),
-                            ]),
-                        messages[index].creditCards.isNotEmpty
-                            ? CardList(cards: messages[index].creditCards)
-                            : const SizedBox(width: 0, height: 0),
-                        messages[index].debitCards.isNotEmpty
-                            ? CardList(cards: messages[index].debitCards)
-                            : const SizedBox(width: 0, height: 0),
-                      ],
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ),
-      ],
+                  );
+                },
+              ),
+            ],
+          );
+        }).toList(),
+      ),
     );
   }
 }
