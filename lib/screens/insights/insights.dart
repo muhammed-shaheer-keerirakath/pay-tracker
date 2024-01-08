@@ -6,8 +6,10 @@ class Insights extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
-      children: [SpendingAnalytics()],
+    return const SingleChildScrollView(
+      child: Column(
+        children: [SpendingAnalytics()],
+      ),
     );
   }
 }
