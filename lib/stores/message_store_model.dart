@@ -8,6 +8,7 @@ import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
+import 'package:pay_tracker/types/monthly_total_spending.dart';
 import 'package:pay_tracker/types/year_grouped_sms.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -47,6 +48,8 @@ class MessageStoreModel extends ChangeNotifier {
   Map<String, List<String>> get cardTypesAndNumbers => _cardTypesAndNumbers;
   List<String> get yearsList => _yearGroupedSms.yearsList;
   List<String> get monthsList => _yearGroupedSms.monthsList;
+  List<MonthlyTotalSpending> get monthlyTotalSpendings =>
+      _yearGroupedSms.monthlyTotalSpendingsList;
 
   MonthlySpending getMonthlySpending(String monthAndYear) {
     MonthlySpending? monthlySpending =
