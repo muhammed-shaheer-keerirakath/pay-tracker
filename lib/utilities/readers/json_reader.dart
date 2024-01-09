@@ -12,5 +12,6 @@ Future<List<InboxSmsMessage>> getJsonMessages() async {
   for (var decodedMessage in decodedMessagesList) {
     messages.add(InboxSmsMessage.fromMockJson(decodedMessage));
   }
+  messages.sort((a, b) => b.dateInMilliSeconds - a.dateInMilliSeconds);
   return messages;
 }

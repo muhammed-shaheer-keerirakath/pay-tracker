@@ -18,12 +18,13 @@ Future<List<InboxSmsMessage>> getSmsMessages() async {
 
   List<InboxSmsMessage> messages = [];
   for (var telephonyMessage in telephonyMessages) {
+    int dateTimeInMilliSeconds = telephonyMessage.date ?? 0;
     DateTime dateTime =
-        DateTime.fromMillisecondsSinceEpoch(telephonyMessage.date ?? 0);
+        DateTime.fromMillisecondsSinceEpoch(dateTimeInMilliSeconds);
     List<String> formattedDate =
         DateFormat(cardDateGroupedFormat).format(dateTime).split('-');
-    messages.add(InboxSmsMessage(formattedDate, telephonyMessage.address ?? '',
-        telephonyMessage.body ?? ''));
+    messages.add(InboxSmsMessage(dateTimeInMilliSeconds, formattedDate,
+        telephonyMessage.address ?? '', telephonyMessage.body ?? ''));
   }
   return messages;
 }

@@ -13,4 +13,5 @@ const List<String> monthsMMMFormat = [
   "Dec",
 ];
 const String threeLetterWeekDayFormat = 'EEE';
+const String twelveHourTimeFormat = 'hh-mm-a';
 const String cardDateGroupedFormat = 'dd-MMM-y-EEE-hh-mm-a';
