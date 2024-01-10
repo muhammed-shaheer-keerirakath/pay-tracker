@@ -168,7 +168,7 @@ class _CardSettingsState extends State<CardSettings> {
                           return Stack(
                             children: [
                               Ink.image(
-                                fit: BoxFit.fill,
+                                fit: BoxFit.cover,
                                 image: AssetImage(
                                   '$cardCoverPath$currentCardCoverImageIdentifier$themeModeIdentifier$cardCoverFileType',
                                 ),
