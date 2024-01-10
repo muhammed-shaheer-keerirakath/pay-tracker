@@ -17,6 +17,6 @@ Android  | [.apk Installer file](Download/android_app_pay_tracker.apk)
 # Other Details
 > If you want to use this application in your Android device, you may download the Android application from the above link. If you have trust issues, do not download/install the application. Everything you do is at your own risk. If you are a developer, you may also fork the source code and build the application by yourself and install it in your device.
 
-> For testing, set **useMockData** variable to **true** in the [app_constants.dart file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/lib/constants/app_constants.dart) to use the application with dummy SMS data.
+> For testing, set **useMockData** variable to **true** in the [development_constants.dart file](lib/constants/development_constants.dart) to use the application with dummy SMS data.
 
-> I am using this application for reading SMS from Emirates NBD bank in the United Arab Emirates. By making changes to the **regExp** regex in [app_constants.dart file](https://github.com/shaheer-deriv/pay-tracker/blob/ea66c99850c8df14620194564d3a1dfcdb92fe0f/lib/constants/app_constants.dart), you may read SMS from other banks as well.
+> I am using this application for reading SMS from Emirates NBD bank in the United Arab Emirates. By making changes to the **regExp** regex in [sms_reader_constants.dart file](lib/constants/sms_reader_constants.dart), you may read SMS from other banks as well.
