@@ -7,7 +7,8 @@ An Android application built using [Flutter](https://flutter.dev/), for reading 
 3. Open the Pay Tracker application
 4. Pay Tracker displays the details in a beautiful way
 
-[![](Download/picture_pay_tracker_flutter_app_for_enbd.png)](Download/picture_pay_tracker_flutter_app_for_enbd.png)
+[![](Download/picture_pay_tracker_flutter_app_for_enbd_light.png)](Download/picture_pay_tracker_flutter_app_for_enbd_light.png)
+[![](Download/picture_pay_tracker_flutter_app_for_enbd_dark.png)](Download/picture_pay_tracker_flutter_app_for_enbd_dark.png)
 
 # Download
 Platform  | Download Link
