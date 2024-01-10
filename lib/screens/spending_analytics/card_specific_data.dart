@@ -5,13 +5,11 @@ class CardSpecificData extends StatelessWidget {
   const CardSpecificData({
     required this.cardsMonthlyCurrencyValues,
     required this.cardType,
-    required this.currencyName,
     super.key,
   });
 
   final Map<String, double> cardsMonthlyCurrencyValues;
   final String cardType;
-  final String currencyName;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +28,6 @@ class CardSpecificData extends StatelessWidget {
           cardNumber: cardNumber,
           cardPaymentCurrencyValue: cardPaymentCurrencyValue,
           cardType: cardType,
-          currencyName: currencyName,
         ),
       );
     });

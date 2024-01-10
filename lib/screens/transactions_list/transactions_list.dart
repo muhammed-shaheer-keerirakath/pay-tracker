@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/screens/card_settings/card_settings.dart';
 import 'package:pay_tracker/screens/message_list/payment_card_content.dart';
 import 'package:pay_tracker/screens/transactions_list/transactions_list_content.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
-import 'package:pay_tracker/utilities/shared/shared_utilities.dart';
+import 'package:provider/provider.dart';
 
 class TransactionsList extends StatelessWidget {
   const TransactionsList({
     required this.availableAmount,
     required this.balanceType,
-    required this.cardImageUri,
     required this.cardMessages,
     required this.cardNumber,
     required this.cardSpent,
@@ -28,7 +29,6 @@ class TransactionsList extends StatelessWidget {
   final List<DisplayedSms> cardMessages;
   final String availableAmount;
   final String balanceType;
-  final String cardImageUri;
   final String cardNumber;
   final String cardSpent;
   final String cardType;
@@ -38,10 +38,23 @@ class TransactionsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    String themeModeIdentifier = getThemeModeIdentifier(context);
+    final MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context);
+
+    String themeModeIdentifier =
+        (Theme.of(context).brightness == Brightness.dark)
+            ? ThemeModeIdentifier.dark
+            : ThemeModeIdentifier.light;
+
+    String cardCoverImage = messageStoreModel.getCardCoverImage(
+        cardType, cardNumber, themeModeIdentifier);
 
     return Scaffold(
       appBar: AppBar(
+        systemOverlayStyle: SystemUiOverlayStyle(
+          systemNavigationBarColor:
+              Theme.of(context).colorScheme.background, // Navigation bar
+        ),
         title: const Text(appTitleTransactionsList),
         actions: [
           IconButton(
@@ -54,7 +67,6 @@ class TransactionsList extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (context) => CardSettings(
                     cardType: cardType,
-                    currencyName: currencyName,
                     cardNumber: cardNumber,
                   ),
                 ),
@@ -81,9 +93,7 @@ class TransactionsList extends StatelessWidget {
                   height: 180,
                   decoration: BoxDecoration(
                     image: DecorationImage(
-                      image: AssetImage(
-                        '$cardImageUri$themeModeIdentifier$cardCoverFileType',
-                      ),
+                      image: AssetImage(cardCoverImage),
                       fit: BoxFit.cover,
                     ),
                   ),

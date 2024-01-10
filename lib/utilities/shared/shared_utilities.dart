@@ -1,9 +1,4 @@
-import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/date_constants.dart';
-
-String getThemeModeIdentifier(BuildContext context) {
-  return (Theme.of(context).brightness == Brightness.dark) ? '_dark' : '_light';
-}
 
 int getMonthNumber(String month) {
   return monthsMMMFormat.indexOf(month) + 1;
