@@ -12,38 +12,43 @@ class TransactionsListContent extends StatelessWidget {
       children: [
         Padding(
           padding:
-              const EdgeInsets.only(top: 8, bottom: 8, left: 16, right: 16),
+              const EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    cardMessage.purchasedAmount,
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.primary,
+                  Expanded(
+                    child: Text(
+                      cardMessage.purchasedAt,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                   ),
-                  Text(
-                    '${cardMessage.hour}:${cardMessage.minute} ${cardMessage.amPm}',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: Text(
+                      cardMessage.purchasedAmount,
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Theme.of(context).colorScheme.primary,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              const SizedBox(height: 2),
-              Text(
-                cardMessage.purchasedAt,
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              const SizedBox(height: 6),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
+              const SizedBox(height: 4),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  Text(
+                    '${cardMessage.hour}:${cardMessage.minute} ${cardMessage.amPm}',
+                  ),
                   RichText(
                     text: TextSpan(
                       style: DefaultTextStyle.of(context).style,

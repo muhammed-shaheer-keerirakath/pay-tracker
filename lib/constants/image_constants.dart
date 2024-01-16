@@ -1,3 +1,16 @@
-const String creditCardCoverImageUri = 'lib/assets/images/credit_card';
-const String debitCardCoverImageUri = 'lib/assets/images/debit_card';
+const String cardCoverPath = 'lib/assets/images/cards/';
 const String cardCoverFileType = '.jpg';
+
+class ThemeModeIdentifier {
+  static const light = 'light';
+  static const dark = 'dark';
+}
+
+List<String> cardCoverImageIdentifier = [
+  '',
+  'cover_1_',
+  'cover_2_',
+  'cover_3_',
+  'cover_4_',
+  'cover_5_',
+];

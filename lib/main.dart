@@ -1,28 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/development_constants.dart';
 import 'package:pay_tracker/screens/home_page/home_page.dart';
-import 'package:pay_tracker/stores/local_store_model.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/themes/app_theme.dart';
 import 'package:provider/provider.dart';
 
 void main() {
-  if (useDebugBorders) {
-    debugPaintSizeEnabled = true;
-  }
+  debugPaintSizeEnabled = useDebugBorders;
   runApp(
-    MultiProvider(
-      providers: [
-        ChangeNotifierProvider<LocalStoreModel>(
-          create: (_) => LocalStoreModel(),
-        ),
-        ChangeNotifierProvider<MessageStoreModel>(
-          create: (_) => MessageStoreModel(),
-        ),
-      ],
+    ChangeNotifierProvider(
+      create: (context) => MessageStoreModel(),
       child: const MyApp(),
     ),
   );
@@ -33,8 +22,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual,
-        overlays: [SystemUiOverlay.top]);
     return MaterialApp(
       debugShowCheckedModeBanner: useDebugBanner,
       title: appName,

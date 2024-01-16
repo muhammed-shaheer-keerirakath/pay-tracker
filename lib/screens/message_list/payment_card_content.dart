@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/stores/local_store_model.dart';
+import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:provider/provider.dart';
 
 class PaymentCardContent extends StatelessWidget {
@@ -29,8 +29,9 @@ class PaymentCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    LocalStoreModel localStoreModel = Provider.of<LocalStoreModel>(context);
-    int dailyCardLimit = localStoreModel.getCardLimit(cardType, cardNumber);
+    MessageStoreModel messageStoreModel =
+        Provider.of<MessageStoreModel>(context);
+    int dailyCardLimit = messageStoreModel.getCardLimit(cardType, cardNumber);
     double percentageConsumed = (totalAmountSpent / dailyCardLimit * 100);
 
     return Padding(

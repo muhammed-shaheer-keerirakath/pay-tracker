@@ -1,48 +1,28 @@
-import 'package:intl/intl.dart';
-import 'package:pay_tracker/constants/date_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 
 class MonthlyAnalytics {
-  /// eg: "2023"
-  late String currentYear;
-
-  /// eg: "Sep"
-  late String currentMonth;
-
-  /// eg: "1"
-  late String currentDay;
-
-  /// eg: { ... "Sep":{MonthlySpending}, "Oct":{MonthlySpending} ... }
+  /// eg: { ... "Sep 2023":{MonthlySpending}, "Oct 2023":{MonthlySpending} ... }
   late Map<String, MonthlySpending> monthlySpending;
 
-  MonthlyAnalytics(List<DateGroupedSms> dateGroupedMessages) {
-    Map<String, List<DateGroupedSms>> yearlySpending =
-        Map.fromEntries(monthsMMMFormat.map((month) => MapEntry(month, [])));
+  MonthlyAnalytics(
+      List<DateGroupedSms> dateGroupedMessages, List<String> monthsList) {
+    Map<String, List<DateGroupedSms>> yearlySpending = Map.fromEntries(
+        monthsList.map((monthAndYear) => MapEntry(monthAndYear, [])));
 
-    final List<String> presentFormattedDate =
-        DateFormat(cardDateGroupedFormat).format(DateTime.now()).split('-');
-    currentDay = presentFormattedDate[0];
-    currentMonth = presentFormattedDate[1];
-    currentYear = presentFormattedDate[2];
     for (var dateGroupedMessage in dateGroupedMessages) {
       List<String> dateSplit = dateGroupedMessage.date.split(" ");
-      String presentDateMonth = dateSplit[2];
-      String presentDateYear = dateSplit[3];
-      if (presentDateYear == currentYear) {
-        yearlySpending[presentDateMonth]?.add(dateGroupedMessage);
-      }
+      String dateSplitMonthAndYear = '${dateSplit[2]} ${dateSplit[3]}';
+      yearlySpending[dateSplitMonthAndYear]?.add(dateGroupedMessage);
     }
 
     monthlySpending = Map.fromEntries(
-      monthsMMMFormat.map(
-        (month) => MapEntry(
-          month,
+      monthsList.map(
+        (monthAndYear) => MapEntry(
+          monthAndYear,
           MonthlySpending(
             yearlySpending,
-            month,
-            currentMonth,
-            currentYear,
+            monthAndYear,
           ),
         ),
       ),
