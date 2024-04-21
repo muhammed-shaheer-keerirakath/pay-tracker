@@ -14,20 +14,42 @@ class MonthlyGraph extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(12, 6, 12, 6),
-      child: SfCartesianChart(
-          primaryXAxis: const CategoryAxis(),
-          title: const ChartTitle(text: 'Monthly Spendings'),
-          series: <LineSeries<MonthlyTotalSpending, String>>[
-            LineSeries<MonthlyTotalSpending, String>(
-              dataSource:
-                  messageStoreModel.monthlyTotalSpendings.reversed.toList(),
-              xValueMapper: (MonthlyTotalSpending monthlyTotalSpending, _) =>
-                  monthlyTotalSpending.monthAndYear,
-              yValueMapper: (MonthlyTotalSpending monthlyTotalSpending, _) =>
-                  monthlyTotalSpending.totalSpending,
-              dataLabelSettings: const DataLabelSettings(isVisible: true),
-            )
-          ]),
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            color: Theme.of(context).colorScheme.outline,
+          ),
+          borderRadius: const BorderRadius.all(Radius.circular(12)),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Card(
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              side: BorderSide(
+                color: Theme.of(context).colorScheme.outline,
+              ),
+              borderRadius: const BorderRadius.all(Radius.circular(8)),
+            ),
+            child: SfCartesianChart(
+                primaryXAxis: const CategoryAxis(),
+                title: const ChartTitle(text: 'Monthly Spendings'),
+                series: <LineSeries<MonthlyTotalSpending, String>>[
+                  LineSeries<MonthlyTotalSpending, String>(
+                    dataSource: messageStoreModel.monthlyTotalSpendings.reversed
+                        .toList(),
+                    xValueMapper:
+                        (MonthlyTotalSpending monthlyTotalSpending, _) =>
+                            monthlyTotalSpending.monthAndYear,
+                    yValueMapper:
+                        (MonthlyTotalSpending monthlyTotalSpending, _) =>
+                            monthlyTotalSpending.totalSpending,
+                    dataLabelSettings: const DataLabelSettings(isVisible: true),
+                  )
+                ]),
+          ),
+        ),
+      ),
     );
   }
 }
