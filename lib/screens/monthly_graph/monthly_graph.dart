@@ -73,12 +73,12 @@ class MonthlyGraph extends StatelessWidget {
                       label: Text(MonthlyGraphConstants.allTime),
                       icon: Icon(Icons.calendar_view_month)),
                   ButtonSegment<String>(
-                      value: MonthlyGraphConstants.past6Months,
-                      label: Text(MonthlyGraphConstants.past6Months),
+                      value: MonthlyGraphConstants.past12Months,
+                      label: Text(MonthlyGraphConstants.past12Months),
                       icon: Icon(Icons.calendar_month)),
                   ButtonSegment<String>(
-                      value: MonthlyGraphConstants.past3Months,
-                      label: Text(MonthlyGraphConstants.past3Months),
+                      value: MonthlyGraphConstants.past6Months,
+                      label: Text(MonthlyGraphConstants.past6Months),
                       icon: Icon(Icons.calendar_month)),
                 ],
                 selected: {messageStoreModel.monthlyGraphRange},

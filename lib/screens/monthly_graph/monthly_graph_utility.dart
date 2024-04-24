@@ -20,8 +20,8 @@ List<String> getAllowedMonthYearList(String monthlyGraphRangeSelection) {
 
   int numberOfMonths = 0;
   switch (monthlyGraphRangeSelection) {
-    case MonthlyGraphConstants.past3Months:
-      numberOfMonths = 3;
+    case MonthlyGraphConstants.past12Months:
+      numberOfMonths = 12;
       break;
     case MonthlyGraphConstants.past6Months:
       numberOfMonths = 6;
