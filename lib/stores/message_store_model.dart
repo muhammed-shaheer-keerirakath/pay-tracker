@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/identifier_constants.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
+import 'package:pay_tracker/screens/monthly_graph/monthly_graph_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
@@ -22,6 +23,8 @@ class MessageStoreModel extends ChangeNotifier {
   String month = '';
   String _day = '';
   String _currencyName = '';
+
+  String monthlyGraphRange = MonthlyGraphConstants.allTime;
 
   final List<DateGroupedSms> _dateGroupedSms = [];
   late YearGroupedSms _yearGroupedSms = YearGroupedSms([]);
@@ -49,7 +52,7 @@ class MessageStoreModel extends ChangeNotifier {
   List<String> get yearsList => _yearGroupedSms.yearsList;
   List<String> get monthsList => _yearGroupedSms.monthsList;
   List<MonthlyTotalSpending> get monthlyTotalSpendings =>
-      _yearGroupedSms.monthlyTotalSpendingsList;
+      _yearGroupedSms.monthlyTotalSpendingsList.reversed.toList();
 
   MonthlySpending getMonthlySpending(String monthAndYear) {
     MonthlySpending? monthlySpending =
@@ -205,5 +208,10 @@ class MessageStoreModel extends ChangeNotifier {
     return onlyCardCoverImageIdentifier
         ? cardCoverImageIdentifier
         : '$cardCoverPath$cardCoverImageIdentifier$themeModeIdentifier$cardCoverFileType';
+  }
+
+  void changeMonthlyGraphRange(String selectedMonthlyGraphRange) {
+    monthlyGraphRange = selectedMonthlyGraphRange;
+    notifyListeners();
   }
 }
