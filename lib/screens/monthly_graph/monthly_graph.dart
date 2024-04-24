@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/screens/monthly_graph/monthly_graph_constants.dart';
+import 'package:pay_tracker/screens/monthly_graph/monthly_graph_utility.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/monthly_total_spending.dart';
 import 'package:provider/provider.dart';
@@ -15,9 +16,9 @@ class MonthlyGraph extends StatelessWidget {
 
     bool hasAllTimeRangeSelected =
         messageStoreModel.monthlyGraphRange == MonthlyGraphConstants.allTime;
-    List<String> allowedMonthYear = ["Mar 2024"];
-    List<MonthlyTotalSpending> monthlyGraphDataSource = [];
-    monthlyGraphDataSource = hasAllTimeRangeSelected
+    List<String> allowedMonthYear =
+        getAllowedMonthYearList(messageStoreModel.monthlyGraphRange);
+    List<MonthlyTotalSpending> monthlyGraphDataSource = hasAllTimeRangeSelected
         ? messageStoreModel.monthlyTotalSpendings
         : messageStoreModel.monthlyTotalSpendings
             .where((element) => allowedMonthYear.contains(element.monthAndYear))
