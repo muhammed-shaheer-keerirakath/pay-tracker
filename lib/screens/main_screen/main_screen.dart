@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
-import 'package:pay_tracker/screens/cards/cards.dart';
-import 'package:pay_tracker/screens/insights/insights.dart';
-import 'package:pay_tracker/screens/payments/payments.dart';
+import 'package:pay_tracker/screens/cards_screen/cards/cards.dart';
+import 'package:pay_tracker/screens/insights_screen/insights/insights.dart';
+import 'package:pay_tracker/screens/payments_screen/payments/payments.dart';
 
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _MainScreenState extends State<MainScreen> {
   int _selectedTabIndex = 1;
 
   void _changeTabSelection(int indexKey) {

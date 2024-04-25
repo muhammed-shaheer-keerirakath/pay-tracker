@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/screens/spending_analytics/card_specific_data_row.dart';
+import 'package:pay_tracker/screens/insights_screen/spending_analytics/card_specific_data_row.dart';
 
 class CardSpecificData extends StatelessWidget {
   const CardSpecificData({

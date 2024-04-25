@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/screens/message_list/card_list.dart';
-import 'package:pay_tracker/screens/message_list/empty_message_list.dart';
+import 'package:pay_tracker/screens/payments_screen/message_list/card_list.dart';
+import 'package:pay_tracker/screens/payments_screen/message_list/empty_message_list.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:provider/provider.dart';

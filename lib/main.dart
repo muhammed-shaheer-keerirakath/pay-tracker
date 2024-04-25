@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pay_tracker/constants/app_constants.dart';
 import 'package:pay_tracker/constants/development_constants.dart';
-import 'package:pay_tracker/screens/home_page/home_page.dart';
+import 'package:pay_tracker/screens/main_screen/main_screen.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/themes/app_theme.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
       theme: themeData,
       darkTheme: darkThemeData,
       themeMode: ThemeMode.system,
-      home: const HomePage(),
+      home: const MainScreen(),
     );
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/screens/error_boundary/error_boundary.dart';
-import 'package:pay_tracker/screens/message_list/message_list.dart';
-import 'package:pay_tracker/screens/no_sms_access/no_sms_access.dart';
+import 'package:pay_tracker/screens/payments_screen/error_boundary/error_boundary.dart';
+import 'package:pay_tracker/screens/payments_screen/message_list/message_list.dart';
+import 'package:pay_tracker/screens/payments_screen/no_sms_access/no_sms_access.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:provider/provider.dart';
 
