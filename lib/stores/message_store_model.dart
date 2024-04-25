@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:pay_tracker/constants/identifier_constants.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
 import 'package:pay_tracker/constants/sms_reader_constants.dart';
-import 'package:pay_tracker/screens/monthly_graph/monthly_graph_constants.dart';
+import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_constants.dart';
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/constants/image_constants.dart';
-import 'package:pay_tracker/screens/card_settings/card_settings.dart';
+import 'package:pay_tracker/screens/shared_screen/card_settings/card_settings.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:provider/provider.dart';
 

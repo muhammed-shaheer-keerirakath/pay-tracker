@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/screens/monthly_graph/monthly_graph_constants.dart';
-import 'package:pay_tracker/screens/monthly_graph/monthly_graph_utility.dart';
+import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_constants.dart';
+import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_utility.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/monthly_total_spending.dart';
 import 'package:provider/provider.dart';

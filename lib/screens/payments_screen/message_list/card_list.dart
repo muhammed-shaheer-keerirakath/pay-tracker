@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pay_tracker/screens/message_list/payment_card.dart';
+import 'package:pay_tracker/screens/payments_screen/message_list/payment_card.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 
 class CardList extends StatelessWidget {

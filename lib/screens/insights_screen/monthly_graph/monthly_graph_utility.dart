@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 import 'package:pay_tracker/constants/date_constants.dart';
-import 'package:pay_tracker/screens/monthly_graph/monthly_graph_constants.dart';
+import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_constants.dart';
 
 List<String> getAllowedMonthYearList(String monthlyGraphRangeSelection) {
   List<String> dateFormat =
