@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:pay_tracker/screens/insights_screen/spending_analytics/card_specific_data/card_specific_data.dart';
+import 'package:pay_tracker/screens/insights_screen/spending_analytics/places_spent_graph/places_spent_graph.dart';
 import 'package:pay_tracker/screens/insights_screen/spending_analytics/spending_on_item/spend_on_item.dart';
 import 'package:pay_tracker/stores/message_store_model.dart';
 import 'package:pay_tracker/types/card_type.dart';
@@ -169,6 +170,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
               const SizedBox(
                 height: 8,
               ),
+              const PlacesSpentGraph()
             ],
           ),
         ),
