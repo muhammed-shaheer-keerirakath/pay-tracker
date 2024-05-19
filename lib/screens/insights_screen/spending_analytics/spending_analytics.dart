@@ -48,7 +48,7 @@ class _SpendingAnalyticsState extends State<SpendingAnalytics> {
                       onPressed: () {
                         showModalBottomSheet(
                           backgroundColor:
-                              Theme.of(context).colorScheme.background,
+                              Theme.of(context).colorScheme.surface,
                           context: context,
                           builder: (BuildContext buildContext) {
                             return SizedBox(

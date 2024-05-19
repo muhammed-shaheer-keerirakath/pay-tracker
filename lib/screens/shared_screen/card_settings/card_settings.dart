@@ -61,7 +61,7 @@ class _CardSettingsState extends State<CardSettings> {
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor:
-              Theme.of(context).colorScheme.background, // Navigation bar
+              Theme.of(context).colorScheme.surface, // Navigation bar
         ),
         title: const Text(appTitleCardSettings),
       ),

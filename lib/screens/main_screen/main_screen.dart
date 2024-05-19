@@ -33,7 +33,7 @@ class _MainScreenState extends State<MainScreen> {
       appBar: AppBar(
         systemOverlayStyle: SystemUiOverlayStyle(
           systemNavigationBarColor:
-              Theme.of(context).colorScheme.background, // Navigation bar
+              Theme.of(context).colorScheme.surface, // Navigation bar
         ),
         title: const Text(appName),
       ),
