@@ -7,10 +7,10 @@ import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
+import 'package:pay_tracker/types/insights_screen/spending_analytics/places_spent.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 import 'package:pay_tracker/types/monthly_total_spending.dart';
-import 'package:pay_tracker/types/insights_screen/spending_analytics/places_spent_data.dart';
 import 'package:pay_tracker/types/year_grouped_sms.dart';
 import 'package:pay_tracker/utilities/readers/message_reader.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -33,7 +33,6 @@ class MessageStoreModel extends ChangeNotifier {
   late MonthlyAnalytics _monthlyAnalytics = MonthlyAnalytics([], []);
   final Map<String, int> _dailyCardLimits = {};
   final Map<String, String> _cardCoverImages = {};
-  late PlacesSpentData _placesSpentData = PlacesSpentData([], []);
 
   MessageStoreModel() {
     fetchMessagesFromInbox();
@@ -66,6 +65,15 @@ class MessageStoreModel extends ChangeNotifier {
     }
   }
 
+  PlacesSpent getPlacesSpent(String monthAndYear) {
+    PlacesSpent? placesSpent = _monthlyAnalytics.placesSpent[monthAndYear];
+    if (placesSpent != null) {
+      return placesSpent;
+    } else {
+      return PlacesSpent.empty();
+    }
+  }
+
   void _setDateAndCurrencyFromLatestSMS() {
     _year = _dateGroupedSms[0].year;
     month = _dateGroupedSms[0].month;
@@ -80,10 +88,6 @@ class MessageStoreModel extends ChangeNotifier {
   void _generateMonthlyAnalytics() {
     _monthlyAnalytics =
         MonthlyAnalytics(_dateGroupedSms, _yearGroupedSms.monthsList);
-  }
-
-  void _generatePlacesSpent() {
-    _placesSpentData = PlacesSpentData(_dateGroupedSms, monthsList);
   }
 
   Future<void> fetchMessagesFromInbox() async {
@@ -150,7 +154,6 @@ class MessageStoreModel extends ChangeNotifier {
     _setDateAndCurrencyFromLatestSMS();
     _generateYearGroupedSms();
     _generateMonthlyAnalytics();
-    _generatePlacesSpent();
   }
 
   String _generateCardSignature(String cardType, String cardNumber) {
