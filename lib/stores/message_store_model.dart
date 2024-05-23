@@ -7,6 +7,7 @@ import 'package:pay_tracker/screens/insights_screen/monthly_graph/monthly_graph_
 import 'package:pay_tracker/types/date_grouped_sms.dart';
 import 'package:pay_tracker/types/displayed_sms.dart';
 import 'package:pay_tracker/types/inbox_sms_message.dart';
+import 'package:pay_tracker/types/insights_screen/spending_analytics/places_spent.dart';
 import 'package:pay_tracker/types/monthly_analytics.dart';
 import 'package:pay_tracker/types/monthly_spending.dart';
 import 'package:pay_tracker/types/monthly_total_spending.dart';
@@ -61,6 +62,15 @@ class MessageStoreModel extends ChangeNotifier {
       return monthlySpending;
     } else {
       return MonthlySpending.empty();
+    }
+  }
+
+  PlacesSpent getPlacesSpent(String monthAndYear) {
+    PlacesSpent? placesSpent = _monthlyAnalytics.placesSpent[monthAndYear];
+    if (placesSpent != null) {
+      return placesSpent;
+    } else {
+      return PlacesSpent.empty();
     }
   }
 
