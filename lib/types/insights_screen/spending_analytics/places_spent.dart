@@ -13,7 +13,7 @@ class PlacesSpent {
       Map<String, List<DateGroupedSms>> yearlySpending, String monthAndYear) {
     yearlySpending[monthAndYear]?.forEach((dateGroupedMessage) {
       dateGroupedMessage.creditCards.forEach((cardNumber, cardPayments) {
-        cardPayments.forEach((displayedSms) {});
+        for (var displayedSms in cardPayments) {}
       });
     });
   }

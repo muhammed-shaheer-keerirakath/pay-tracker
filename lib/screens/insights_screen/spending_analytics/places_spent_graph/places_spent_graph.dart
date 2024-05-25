@@ -13,6 +13,6 @@ class PlacesSpentGraph extends StatelessWidget {
     PlacesSpent placesSpent = messageStoreModel
         .getPlacesSpent(messageStoreModel.selectedMonthAndYear);
 
-    return const Text("test");
+    return Container();
   }
 }
